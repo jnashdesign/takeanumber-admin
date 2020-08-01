@@ -1,0 +1,133 @@
+<ion-header class="topBar">
+  <img class="appLogo" src="../../assets/takeANumber.png" start />
+  <ion-title>
+    Manage Orders
+  </ion-title>
+  <img class="restaurantLogo" src="{{restaurantLogo}}" end />
+</ion-header>
+<ion-header>
+  <ion-segment centered color="primary" [(ngModel)]="tab" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="open">
+      <ion-label>In Progress ({{inProgressTotal}})</ion-label>
+      <ion-icon color="primary" name="restaurant"></ion-icon>
+    </ion-segment-button>
+
+    <ion-segment-button value="completed" checked>
+      <ion-label>Completed ({{completedTotal}})</ion-label>
+      <ion-icon color="success" name="checkbox"></ion-icon>
+    </ion-segment-button> 
+
+    <ion-segment-button value="cancelled" checked>
+      <ion-label>Cancelled ({{cancelledTotal}})</ion-label>
+      <ion-icon color="danger" name="trash"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content padding>
+    <div [ngSwitch]="tab">
+
+      <ion-card *ngSwitchCase="'open'">
+        <ion-item *ngIf="inProgressTotal < 1">
+          <ion-label>
+          <h2>No Active Orders.</h2>
+          </ion-label>
+        </ion-item>
+
+        <ion-list class="listContainer inProgressList" *ngFor="let item of itemList | async">
+          <ion-item-sliding *ngIf="item.status == 'in-progress'">
+            <ion-item>
+              <ion-label>
+                <h2>{{item.name}}</h2>
+              </ion-label>
+              <ion-note slot="end">
+                {{item.time}}
+              </ion-note>
+            </ion-item>
+
+            <ion-item-options side="start">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name}}" (click)="markComplete($event)">
+                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name}}">
+                </ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+
+            <ion-item-options side="end">
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name}}" (click)="markCancelled($event)">
+                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name}}"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+
+      <ion-card *ngSwitchCase="'completed'">
+        <ion-item *ngIf="completedTotal < 1">
+          <ion-label>
+            <h2>No Completed Orders.</h2>
+          </ion-label>
+        </ion-item>
+        <ion-list class="listContainer completedList" *ngFor="let item of itemList | async">
+          <ion-item-sliding *ngIf="item.status == 'complete'">
+            <ion-item>
+              <ion-label>
+                <h2>{{item.name}}</h2>
+              </ion-label>
+              <ion-note slot="end">
+                {{item.time}}
+              </ion-note>
+            </ion-item>
+
+            <ion-item-options side="start">
+              <ion-item-option color="warning" id="{{item.timeStamp + '_' + item.name}}" (click)="markInProgress($event)">
+                <ion-icon slot="icon-only" name="arrow-undo-circle-outline" id="{{item.timeStamp + '_' + item.name}}"
+                  (click)="markInProgress($event)"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+
+            <ion-item-options side="end">
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name}}" (click)="markCancelled($event)">
+                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name}}"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+
+      <ion-card *ngSwitchCase="'cancelled'">
+        <ion-item *ngIf="cancelledTotal < 1">
+          <ion-label>
+            <h2>No Cancelled Orders.</h2>
+          </ion-label>
+        </ion-item>
+        <ion-list class="listContainer cancelledList" *ngFor="let item of itemList | async">
+          <ion-item-sliding *ngIf="item.status == 'cancelled'">
+            <ion-item>
+              <ion-label>
+                <h2>{{item.name}}</h2>
+              </ion-label>
+              <ion-note slot="end">
+                {{item.time}}
+              </ion-note>
+            </ion-item>
+
+            <ion-item-options side="start">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name}}" (click)="markComplete($event)">
+                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name}}">
+                </ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+
+            <ion-item-options side="end">
+              <ion-item-option color="warning" id="{{item.timeStamp + '_' + item.name}}" (click)="markInProgress($event)">
+                <ion-icon slot="icon-only" name="arrow-undo-circle-outline" id="{{item.timeStamp + '_' + item.name}}"
+                  (click)="markInProgress($event)"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    </div>
+  </ion-content>
+</ion-content>

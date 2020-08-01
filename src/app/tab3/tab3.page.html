@@ -1,0 +1,45 @@
+<ion-header class="topBar">
+  <img class="appLogo" src="../../assets/takeANumber.png" start />
+  <ion-title>
+    My Account
+  </ion-title>
+  <img class="restaurantLogo" src="{{restaurantLogo}}" end />
+</ion-header>
+
+<ion-content class="account-info" [fullscreen]="true" padding>
+  <ion-card padding>
+    <ion-list>
+      <ion-item>
+        <ion-label>Business Name</ion-label>
+        <ion-input value="{{restuarantName}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Restaurant Type</ion-label>
+        <ion-select [(ngModel)]="restaurantType" placeholder="Select One">
+          <ion-select-option value="location">Static Location</ion-select-option>
+          <ion-select-option value="truck">Food Truck</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Plan Type</ion-label>
+        <ion-select [(ngModel)]="planType" placeholder="Select One">
+          <ion-select-option value="free">FREE</ion-select-option>
+          <ion-select-option value="paid">PAID</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Email</ion-label>
+        <ion-input type="email" value="{{restuarantEmail}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Phone</ion-label>
+        <ion-input type="tel" value="{{restuarantPhone}}"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="spacer"></div>
+    <ion-button class="fullWidth inactive" disabled>Logout </ion-button>
+  </ion-card>
+</ion-content>

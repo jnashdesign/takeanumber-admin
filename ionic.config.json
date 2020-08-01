@@ -1,0 +1,8 @@
+{
+  "name": "takeANumber",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
