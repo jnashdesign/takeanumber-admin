@@ -52,7 +52,7 @@ export class Tab1Page {
         return data;
       });
 
-    this.getOrderData('active');
+    this.getOrderData('in-progress');
     this.getOrderData('complete');
     this.getOrderData('cancelled');
   }
@@ -67,7 +67,7 @@ export class Tab1Page {
           tempArray.push(e.payload.val())
         });
 
-        if (status == 'active') {
+        if (status == 'in-progress') {
           this.inProgressTotal = tempArray.length;
         } else if (status == 'complete') {
           this.completedTotal = tempArray.length;
