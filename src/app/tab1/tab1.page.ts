@@ -80,12 +80,39 @@ export class Tab1Page {
       });
   }
 
+  getTime(){
+    // Get time info.
+    let d = new Date;
+    let hours = d.getHours();
+    let minutes = d.getMinutes();
+    let minutesString;
+    let time;
+
+    // Check whether AM or PM 
+    var newformat = hours >= 12 ? 'PM' : 'AM';
+
+    // Find current hour in AM-PM Format 
+    hours = hours % 12;
+
+    // To display "0" as "12" 
+    hours = hours ? hours : 12;
+    minutesString = minutes < 10 ? '0' + minutes : minutes;
+
+    // Format the date and time
+    time = hours + ':' + minutesString + ' ' + newformat;
+    
+    return time;  
+  }
+
   markComplete(e) {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
+    let time = this.getTime();
+    console.log(time);
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
-        status: 'complete'
+        status: 'complete',
+        completed: time
       });
   }
 
@@ -104,6 +131,15 @@ export class Tab1Page {
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
         status: 'in-progress'
+      });
+  }
+
+  markWaiting(e) {
+    let itemKey = e.target.id;
+    let date = this.getCurrentDate();
+    this.afd.object(this.userID + '/' + date + '/' + itemKey)
+      .update({
+        status: 'waiting'
       });
   }
 

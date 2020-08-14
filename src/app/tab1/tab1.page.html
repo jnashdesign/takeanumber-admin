@@ -9,7 +9,7 @@
   <ion-segment centered color="primary" [(ngModel)]="tab" (ionChange)="segmentChanged($event)">
     <ion-segment-button value="open">
       <ion-label>In Progress ({{inProgressTotal}})</ion-label>
-      <ion-icon color="primary" name="restaurant"></ion-icon>
+      <ion-icon color="primary" name="construct"></ion-icon>
     </ion-segment-button>
 
     <ion-segment-button value="completed" checked>
@@ -39,9 +39,13 @@
           <ion-item-sliding *ngIf="item.status == 'in-progress'">
             <ion-item>
               <ion-label>
-                <h2>{{item.name}}</h2>
+                <h2>{{item.id}} &mdash; {{item.name}}</h2>
               </ion-label>
               <ion-note slot="end">
+                <ion-button id="{{item.timeStamp + '_' + item.name}}" (click)="markWaiting($event)">
+                  <ion-icon slot="start" name="alarm"></ion-icon>
+                  Back to Waiting
+                </ion-button><br>
                 {{item.time}}
               </ion-note>
             </ion-item>
@@ -72,7 +76,7 @@
           <ion-item-sliding *ngIf="item.status == 'complete'">
             <ion-item>
               <ion-label>
-                <h2>{{item.name}}</h2>
+                <h2>{{item.id}} &mdash; {{item.name}}</h2>
               </ion-label>
               <ion-note slot="end">
                 {{item.time}}
@@ -80,8 +84,8 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="warning" id="{{item.timeStamp + '_' + item.name}}" (click)="markInProgress($event)">
-                <ion-icon slot="icon-only" name="arrow-undo-circle-outline" id="{{item.timeStamp + '_' + item.name}}"
+              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name}}" (click)="markInProgress($event)">
+                <ion-icon slot="icon-only" name="construct" id="{{item.timeStamp + '_' + item.name}}"
                   (click)="markInProgress($event)"></ion-icon>
               </ion-item-option>
             </ion-item-options>
@@ -105,7 +109,7 @@
           <ion-item-sliding *ngIf="item.status == 'cancelled'">
             <ion-item>
               <ion-label>
-                <h2>{{item.name}}</h2>
+                <h2>{{item.id}} &mdash; {{item.name}}</h2>
               </ion-label>
               <ion-note slot="end">
                 {{item.time}}
@@ -113,16 +117,16 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name}}" (click)="markComplete($event)">
-                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name}}">
-                </ion-icon>
+              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name}}" (click)="markInProgress($event)">
+                <ion-icon slot="icon-only" name="construct" id="{{item.timeStamp + '_' + item.name}}"
+                  (click)="markInProgress($event)"></ion-icon>
               </ion-item-option>
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="warning" id="{{item.timeStamp + '_' + item.name}}" (click)="markInProgress($event)">
-                <ion-icon slot="icon-only" name="arrow-undo-circle-outline" id="{{item.timeStamp + '_' + item.name}}"
-                  (click)="markInProgress($event)"></ion-icon>
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name}}" (click)="markComplete($event)">
+                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name}}">
+                </ion-icon>
               </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>

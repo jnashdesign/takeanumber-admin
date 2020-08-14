@@ -54,7 +54,7 @@ export class Tab2Page {
 
     this.getOrderData('waiting');
     this.getOrderData('ready');
-    this.getOrderData('onHold');
+    this.getOrderData('on-hold');
   }
 
   getOrderData(status) {
@@ -73,7 +73,7 @@ export class Tab2Page {
           this.readyToOrderTotal = tempArray.length;
         } else if (status == 'waiting') {
             this.waitingCustomersTotal = tempArray.length;
-        } else if (status == 'onHold') {
+        } else if (status == 'on-hold') {
           this.onHoldTotal = tempArray.length;
         } else {
           this.erroredOrders = tempArray;
@@ -96,7 +96,7 @@ export class Tab2Page {
     let date = this.getCurrentDate();
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
-        status: 'onHold'
+        status: 'on-hold'
       });
   }
 
@@ -106,6 +106,15 @@ export class Tab2Page {
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
         status: 'ready'
+      });
+  }
+
+  markInProgress(e){
+    let itemKey = e.target.id;
+    let date = this.getCurrentDate();
+    this.afd.object(this.userID + '/' + date + '/' + itemKey)
+      .update({
+        status: 'in-progress'
       });
   }
 

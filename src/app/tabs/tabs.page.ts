@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor() {
+    if (!localStorage.getItem('loggedIn')){
+      window.location.replace("https://takeanumber.tech/");    
+    }
+  }
 
 }
