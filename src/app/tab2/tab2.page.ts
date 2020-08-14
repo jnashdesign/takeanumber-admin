@@ -131,9 +131,7 @@ export class Tab2Page {
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
         status: 'ready',
-        time: {
-          readyToOrder: time
-        }
+        time_readyToOrder: time
       });
   }
 
@@ -144,9 +142,7 @@ export class Tab2Page {
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
         status: 'in-progress',
-        time: {
-          inProgress: time
-        }
+        time_inProgress: time
       });
   }
 

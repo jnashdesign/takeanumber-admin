@@ -111,9 +111,7 @@ export class Tab1Page {
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
         status: 'complete',
-        time: {
-          completed: time
-        }
+        time_completed: time
       });
   }
 
@@ -133,9 +131,7 @@ export class Tab1Page {
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
         status: 'in-progress',
-        time: {
-          inProgress: time
-        }
+        time_inProgress: time
       });
   }
 
