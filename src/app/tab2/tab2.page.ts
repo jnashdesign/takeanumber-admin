@@ -82,6 +82,30 @@ export class Tab2Page {
       });
   }
 
+  getTime(){
+    // Get time info.
+    let d = new Date;
+    let hours = d.getHours();
+    let minutes = d.getMinutes();
+    let minutesString;
+    let time;
+
+    // Check whether AM or PM 
+    var newformat = hours >= 12 ? 'PM' : 'AM';
+
+    // Find current hour in AM-PM Format 
+    hours = hours % 12;
+
+    // To display "0" as "12" 
+    hours = hours ? hours : 12;
+    minutesString = minutes < 10 ? '0' + minutes : minutes;
+
+    // Format the date and time
+    time = hours + ':' + minutesString + ' ' + newformat;
+    
+    return time;  
+  }
+
   markWaiting(e) {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
@@ -103,18 +127,26 @@ export class Tab2Page {
   markReady(e) {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
+    let time = this.getTime();
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
-        status: 'ready'
+        status: 'ready',
+        time: {
+          readyToOrder: time
+        }
       });
   }
 
   markInProgress(e){
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
+    let time = this.getTime();
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
-        status: 'in-progress'
+        status: 'in-progress',
+        time: {
+          inProgress: time
+        }
       });
   }
 

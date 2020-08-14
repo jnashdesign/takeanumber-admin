@@ -108,11 +108,12 @@ export class Tab1Page {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
     let time = this.getTime();
-    console.log(time);
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
         status: 'complete',
-        completed: time
+        time: {
+          completed: time
+        }
       });
   }
 
@@ -128,9 +129,13 @@ export class Tab1Page {
   markInProgress(e) {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
+    let time = this.getTime();
     this.afd.object(this.userID + '/' + date + '/' + itemKey)
       .update({
-        status: 'in-progress'
+        status: 'in-progress',
+        time: {
+          inProgress: time
+        }
       });
   }
 
