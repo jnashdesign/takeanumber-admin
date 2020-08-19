@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'app-tab3',
@@ -8,13 +10,25 @@ import { Component } from '@angular/core';
 
 
 export class Tab3Page {
-  public restuarantName = 'Bells Sweet Factory';
-  public restaurantLogo = '../assets/bellsLogo.jpg';
-  public restaurantType = 'truck';
-  public planType = 'free'
-  public restuarantPhone = '(601) 691-4701';
-  public restuarantEmail = 'info@thebellssweetfactory.com';
+  public restuarantName;
+  public restaurantLogo;
+  public restaurantType;
+  public planType;
+  public phone;
+  public email;
+  public userID;
 
-  constructor() {}
+  constructor(
+    public storage: Storage,
+    public afd: AngularFireDatabase) {
+      if (localStorage.getItem('restaurantLogo')){
+        this.restaurantLogo = localStorage.getItem('restaurantLogo').replace(/['"]+/g, '');
+        this.restuarantName = localStorage.getItem('restaurantName').replace(/['"]+/g, '');
+        this.restaurantType = localStorage.getItem('restaurantType').replace(/['"]+/g, '');
+        this.planType = localStorage.getItem('planType').replace(/['"]+/g, '');
+        this.phone = localStorage.getItem('phone').replace(/['"]+/g, '');
+        this.email = localStorage.getItem('email').replace(/['"]+/g, '');  
+      }
+  }
 
 }

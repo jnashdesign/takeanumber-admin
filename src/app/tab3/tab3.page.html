@@ -16,7 +16,7 @@
 
       <ion-item>
         <ion-label>Restaurant Type</ion-label>
-        <ion-select [(ngModel)]="restaurantType" placeholder="Select One">
+        <ion-select [(ngModel)]="restaurantType" placeholder="{{restaurantType}}">
           <ion-select-option value="location">Static Location</ion-select-option>
           <ion-select-option value="truck">Food Truck</ion-select-option>
         </ion-select>
@@ -24,7 +24,7 @@
 
       <ion-item>
         <ion-label>Plan Type</ion-label>
-        <ion-select [(ngModel)]="planType" placeholder="Select One">
+        <ion-select [(ngModel)]="planType" placeholder="{{planType}}">
           <ion-select-option value="free">FREE</ion-select-option>
           <ion-select-option value="paid">PAID</ion-select-option>
         </ion-select>
@@ -32,11 +32,11 @@
 
       <ion-item>
         <ion-label>Email</ion-label>
-        <ion-input type="email" value="{{restuarantEmail}}"></ion-input>
+        <ion-input type="email" value="{{email}}"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Phone</ion-label>
-        <ion-input type="tel" value="{{restuarantPhone}}"></ion-input>
+        <ion-input type="tel" value="{{phone}}"></ion-input>
       </ion-item>
     </ion-list>
     <div class="spacer"></div>

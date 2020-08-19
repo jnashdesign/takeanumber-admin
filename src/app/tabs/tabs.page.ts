@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'app-tabs',
@@ -6,11 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
+  public userID;
+  public firebaseUID;
+  public restaurantName;
 
-  constructor() {
-    if (!localStorage.getItem('loggedIn')){
-      window.location.replace("https://takeanumber.tech/");    
+  constructor(
+    public afd: AngularFireDatabase) {
+      // if (localStorage.getItem('loggedIn') !== 'true'){
+      //   window.location.replace('https://takeanumber.tech/');
+      // }
     }
-  }
 
-}
+  }

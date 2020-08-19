@@ -10,10 +10,10 @@ declare var $: any;
 })
 export class Tab2Page {
 
-  public userID = 'bellsSweetFactory';
-  public restaurantName = 'Bells Sweet Factory';
-  public description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse placerat, ligula interdum consequat blandit, nisi arcu mollis leo, sed consequat augue massa vitae dolor. Maecenas efficitur rhoncus dui. Etiam magna felis, faucibus eu iaculis ac, feugiat a quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce in tempus enim, nec vulputate purus. Etiam sodales commodo nisl vel porttitor. Morbi laoreet aliquet quam, ac vestibulum ligula pulvinar a.';
-  public restaurantLogo = '../assets/bellsLogo.jpg';
+  public userID;
+  public firebaseUID;
+  public firebaseName;
+  public restaurantLogo;
   public itemList: any;
   public itemListReverse: any;
   public numItems: any;
@@ -30,6 +30,25 @@ export class Tab2Page {
     public storage: Storage) {
     this.tab = 'waiting';
     this.getItems(this.getCurrentDate());
+    if (localStorage.getItem('firebaseUID')){
+      this.firebaseUID = localStorage.getItem('firebaseUID').replace(/['"]+/g, '');
+      this.setData(this.firebaseUID);
+    }
+  }
+
+  setData(firebaseUID){
+    this.afd.object('users/clients/' + firebaseUID)
+    .valueChanges().subscribe((res:any) => {
+      localStorage.setItem('restaurantName',res.restaurantName);
+      localStorage.setItem('firebaseName', res.firebaseName);
+      localStorage.setItem('restaurantLogo',res.restaurantLogo);
+      this.restaurantLogo = res.restaurantLogo.replace(/['"]+/g, '');
+      localStorage.setItem('restaurantType',res.restaurantType);
+      localStorage.setItem('restaurantEmail',res.email);
+      localStorage.setItem('planType',res.planType);
+      localStorage.setItem('phone',res.phone);
+      localStorage.setItem('email',res.email);
+    });
   }
 
   getCurrentDate() {
@@ -39,14 +58,15 @@ export class Tab2Page {
     let day = d.getDate();
     let year = d.getFullYear();
     let date = month + '-' + day + '-' + year;
+    // let date = '8-14-2020';
 
     return date;
   }
 
   getItems(date) {
     // Pull items from Firebase to be displayed
-    this.itemList = this.afd.list(this.userID + '/' + date + '/').valueChanges();
-    this.afd.list(this.userID + '/' + date + '/').valueChanges()
+    this.itemList = this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/').valueChanges();
+    this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/').valueChanges()
       .subscribe(data => {
         this.numItems = data.length;
         return data;
@@ -59,7 +79,7 @@ export class Tab2Page {
 
   getOrderData(status) {
     // Get completed orders
-    this.afd.list(this.userID + '/' + this.getCurrentDate() + '/',
+    this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + this.getCurrentDate() + '/',
       ref => ref.orderByChild('status').equalTo(status))
       .snapshotChanges().subscribe((res) => {
         let tempArray: any = [];
@@ -77,7 +97,6 @@ export class Tab2Page {
           this.onHoldTotal = tempArray.length;
         } else {
           this.erroredOrders = tempArray;
-          console.log(this.erroredOrders);
         }
       });
   }
@@ -109,7 +128,7 @@ export class Tab2Page {
   markWaiting(e) {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
-    this.afd.object(this.userID + '/' + date + '/' + itemKey)
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
         status: 'waiting'
       });
@@ -118,7 +137,7 @@ export class Tab2Page {
   markOnHold(e) {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
-    this.afd.object(this.userID + '/' + date + '/' + itemKey)
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
         status: 'on-hold'
       });
@@ -128,7 +147,7 @@ export class Tab2Page {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
     let time = this.getTime();
-    this.afd.object(this.userID + '/' + date + '/' + itemKey)
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
         status: 'ready',
         time_readyToOrder: time
@@ -139,7 +158,7 @@ export class Tab2Page {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
     let time = this.getTime();
-    this.afd.object(this.userID + '/' + date + '/' + itemKey)
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
         status: 'in-progress',
         time_inProgress: time
