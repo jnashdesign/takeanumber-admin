@@ -24,7 +24,7 @@
 
       <ion-item>
         <ion-label>Plan Type</ion-label>
-        <ion-select [(ngModel)]="planType" placeholder="{{planType}}">
+        <ion-select disabled [(ngModel)]="planType" placeholder="{{planType}}">
           <ion-select-option value="free">FREE</ion-select-option>
           <ion-select-option value="paid">PAID</ion-select-option>
         </ion-select>
@@ -40,6 +40,6 @@
       </ion-item>
     </ion-list>
     <div class="spacer"></div>
-    <ion-button class="fullWidth inactive" disabled>Logout </ion-button>
+    <ion-button class="fullWidth inactive" (click)="logout()">Logout</ion-button>
   </ion-card>
 </ion-content>
