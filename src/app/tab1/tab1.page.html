@@ -28,7 +28,7 @@
   <ion-content padding>
     <div [ngSwitch]="tab">
 
-      <ion-card *ngSwitchCase="'open'">
+      <div *ngSwitchCase="'open'">
         <ion-item *ngIf="inProgressTotal < 1">
           <ion-label>
           <h2>No Active Orders.</h2>
@@ -64,9 +64,9 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
 
-      <ion-card *ngSwitchCase="'completed'">
+      <div *ngSwitchCase="'completed'">
         <ion-item *ngIf="completedTotal < 1">
           <ion-label>
             <h2>No Completed Orders.</h2>
@@ -97,9 +97,9 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
 
-      <ion-card *ngSwitchCase="'cancelled'">
+      <div *ngSwitchCase="'cancelled'">
         <ion-item *ngIf="cancelledTotal < 1">
           <ion-label>
             <h2>No Cancelled Orders.</h2>
@@ -131,7 +131,7 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
     </div>
   </ion-content>
 </ion-content>

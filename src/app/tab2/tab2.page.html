@@ -28,7 +28,7 @@
   <ion-content padding>
     <div [ngSwitch]="tab">
 
-      <ion-card *ngSwitchCase="'waiting'">
+      <div *ngSwitchCase="'waiting'">
         <ion-item *ngIf="waitingCustomersTotal < 1">
           <ion-label>
           <h2>No Waiting Customers.</h2>
@@ -60,9 +60,9 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
 
-      <ion-card *ngSwitchCase="'ready'">
+      <div *ngSwitchCase="'ready'">
         <ion-item *ngIf="readyToOrderTotal < 1">
           <ion-label>
           <h2>No Customers Ready to Order.</h2>
@@ -98,9 +98,9 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
 
-      <ion-card *ngSwitchCase="'on-hold'">
+      <div *ngSwitchCase="'on-hold'">
         <ion-item *ngIf="onHoldTotal < 1">
           <ion-label>
             <h2>No Customers On Hold.</h2>
@@ -131,7 +131,7 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-      </ion-card>
+      </div>
     </div>
   </ion-content>
 </ion-content>
