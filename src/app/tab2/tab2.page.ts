@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Storage } from '@ionic/storage';
+import { TabsPage } from '../tabs/tabs.page';
 declare var $: any;
 
 @Component({
@@ -27,6 +28,7 @@ export class Tab2Page {
 
   constructor(
     public afd: AngularFireDatabase,
+    public tabsPage: TabsPage,
     public storage: Storage) {
     this.tab = 'waiting';
     this.getItems(this.getCurrentDate());
@@ -34,6 +36,10 @@ export class Tab2Page {
       this.firebaseUID = localStorage.getItem('firebaseUID').replace(/['"]+/g, '');
       this.setData(this.firebaseUID);
     }
+  }
+
+  ionViewWillEnter(){
+    this.tabsPage.getTabTotals();
   }
 
   setData(firebaseUID){
@@ -132,6 +138,7 @@ export class Tab2Page {
       .update({
         status: 'waiting'
       });
+      this.tabsPage.getTabTotals();
   }
 
   markOnHold(e) {
@@ -141,6 +148,7 @@ export class Tab2Page {
       .update({
         status: 'on-hold'
       });
+      this.tabsPage.getTabTotals();
   }
 
   markReady(e) {
@@ -152,6 +160,7 @@ export class Tab2Page {
         status: 'ready',
         time_readyToOrder: time
       });
+      this.tabsPage.getTabTotals();
   }
 
   markInProgress(e){
@@ -163,6 +172,7 @@ export class Tab2Page {
         status: 'in-progress',
         time_inProgress: time
       });
+      this.tabsPage.getTabTotals();
   }
 
   segmentChanged(e) {

@@ -89,6 +89,7 @@ ion-segment-button {
   margin-bottom: 0;
   padding-top: 10px;
   padding-bottom: 10px;
+  width: calc(100% / 3);
 }
 ion-segment-button.segment-button-checked {
   background: #fff;
@@ -148,16 +149,20 @@ p {
 .account-info ion-item {
   border-bottom: 1px solid #ddd;
 }
-
-// ion-tab-button.tab-has-icon:before {
-//   content: '1';
-//   position: absolute;
-//   background: red;
-//   padding: 10px;
-//   color: white;
-//   border-radius: 100%;
-//   height: 5px;
-//   width: 5px;
-//   left: 20%;
-//   line-height: 0.3em;
-// }
+ion-tab-button {
+  position: relative;
+}
+#tab-button-tab1:before, #tab-button-tab2:before {
+  position: absolute;
+  background: red;
+  padding: 8px;
+  color: white;
+  border-radius: 15px;
+  min-height: 5px;
+  min-width: 5px;
+  right: 20%;
+  line-height: 0.3em;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 9;
+}
