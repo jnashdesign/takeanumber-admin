@@ -47,8 +47,8 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name}}" (click)="markReady($event)">
-                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name}}">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}" (click)="markReady($event)">
+                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}">
                 </ion-icon>
               </ion-item-option>
             </ion-item-options>
@@ -124,8 +124,8 @@
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name}}" (click)="markReady($event)">
-                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name}}"
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}" (click)="markReady($event)">
+                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}"
                   (click)="markReady($event)"></ion-icon>
               </ion-item-option>
             </ion-item-options>

@@ -152,11 +152,14 @@ export class Tab2Page {
   }
 
   markReady(e) {
-    let itemKey = e.target.id;
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let token = itemInfo[1];
     let date = this.getCurrentDate();
     let time = this.getTime();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
+        message: 'ready|'+token,
         status: 'ready',
         time_readyToOrder: time
       });
