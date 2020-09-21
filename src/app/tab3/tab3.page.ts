@@ -35,6 +35,10 @@ export class Tab3Page {
       }
   }
 
+  ionViewWillEnter(){
+    this.getOrderData();
+  }
+
   async logout() {
     const alert = await this.alrtCtrl.create({
       header: 'Logging Out',
@@ -59,7 +63,66 @@ export class Tab3Page {
   }
 
   dismiss(){
-
   }
 
+  getOrderData() {
+    this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + this.getCurrentDate() + '/').valueChanges()
+      .subscribe(res => {
+        let tempArray: any = [];
+        res.forEach((e) => {
+          tempArray.push(e)
+        });
+        let cancelledList = [];
+        let orderTimes = [];
+        tempArray.forEach((element) => {
+          if (element.status == 'cancelled'){
+            cancelledList.push(element);
+          }
+          if (element.time_completed){
+            let timeGotNumber = this.processtime(element.time_gotNumber);
+            let timeOrderStarted = this.processtime(element.time_inProgress);
+            let timeCompleted = this.processtime(element.time_completed);
+            let totalOrderTime = timeCompleted - timeGotNumber;
+            let timeWaiting = timeOrderStarted - timeGotNumber;
+            orderTimes.push({
+              id: element.id,
+              timeOrderStarted: element.time_gotNumber,
+              timeOrderInProgress: element.time_inProgress,
+              timeOrderCompleted: element.time_completed,
+              timeWaiting: timeWaiting,
+              totalOrderTime: totalOrderTime
+            });
+          }
+        });
+        console.log(orderTimes);
+        console.log(cancelledList);
+      });
+  }
+
+  processtime(time){
+    time = time.split(' ');
+    let timeFormatted = time[0].split(':');
+    let hourInMinutes = timeFormatted[0];
+    hourInMinutes = parseInt(hourInMinutes) * 60;
+    if (time[1] == 'PM'){
+      hourInMinutes = parseInt(hourInMinutes) + 12;
+    }else{
+      // do nothing
+    }
+    let minutes = parseInt(timeFormatted[1]);
+    let totalMinutes = hourInMinutes + minutes
+    return totalMinutes;
+  }
+
+  getCurrentDate() {
+    // Get date info
+    let d = new Date;
+    let month = d.getMonth() + 1;
+    let day = d.getDate();
+    let year = d.getFullYear();
+    let date = month + '-' + day + '-' + year;
+    // let date = '8-14-2020';
+
+    return date;
+  }
 }
