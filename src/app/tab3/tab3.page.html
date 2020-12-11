@@ -1,45 +1,68 @@
 <ion-header class="topBar">
   <img class="appLogo" src="../../assets/takeANumber.png" start />
   <ion-title>
-    My Account
+    Check<br/>Stats
   </ion-title>
   <img class="restaurantLogo" src="{{restaurantLogo}}" end />
 </ion-header>
 
 <ion-content class="account-info" [fullscreen]="true" padding>
-  <ion-card padding>
-    <ion-list>
-      <ion-item>
-        <ion-label>Business Name</ion-label>
-        <ion-input value="{{restuarantName}}"></ion-input>
-      </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <h3>{{formattedDate}}</h3>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <ion-select placeholder="{{today}}" (ionChange)="onChange($event)" disabled></ion-select> -->
+  <ion-row>
+    <ion-col>
+      <ion-card class="statBoxes">
+        <ion-card-header>
+          <ion-card-content>
+            <h1>{{completedOrders}}</h1>
+          </ion-card-content>
+          <ion-card-subtitle>Completed Orders</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>    
+    </ion-col>  
 
-      <ion-item>
-        <ion-label>Restaurant Type</ion-label>
-        <ion-select disabled [(ngModel)]="restaurantType" placeholder="{{restaurantType}}">
-          <ion-select-option value="location">Static Location</ion-select-option>
-          <ion-select-option value="truck">Food Truck</ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-col>
+      <ion-card class="statBoxes">
+        <ion-card-header>
+          <ion-card-content>
+            <h1>{{cancelledOrders}}</h1>
+          </ion-card-content>
+          <ion-card-subtitle>Cancelled Orders</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>    
+    </ion-col>   
+  </ion-row>
 
-      <ion-item>
-        <ion-label>Plan Type</ion-label>
-        <ion-select disabled [(ngModel)]="planType" placeholder="{{planType}}">
-          <ion-select-option value="free">FREE</ion-select-option>
-          <ion-select-option value="paid">PAID</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Email</ion-label>
-        <ion-input type="email" value="{{email}}"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Phone</ion-label>
-        <ion-input type="tel" value="{{phone}}"></ion-input>
-      </ion-item>
-    </ion-list>
-    <div class="spacer"></div>
-    <ion-button class="fullWidth inactive" (click)="logout()">Logout</ion-button>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Wait Times<br/><span style="font-size:0.75em">(From Getting Number Until Ready to Order)</span></ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="waitChartContent">
+      <canvas #waitTimeChart></canvas>
+      <p>Average Wait Time: <strong>{{avgWaitTime}} Minutes</strong></p>
+    </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Total Order Times<br/><span style="font-size:0.75em">(From Getting Number to Order Completion)</span></ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="totalChartContent">
+      <canvas #totalTimeChart></canvas>
+      <p>Average Total Order Time: <strong>{{avgOrderTime}} Minutes</strong></p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card padding>
+    <button class="fullWidth inactive" (click)="logout()">Logout</button>
+  </ion-card>
+
 </ion-content>

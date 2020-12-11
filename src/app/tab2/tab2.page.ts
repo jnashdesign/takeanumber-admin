@@ -141,28 +141,43 @@ export class Tab2Page {
       this.tabsPage.getTabTotals();
   }
 
+  markReady(e) {
+    this.sendMessage(e, 'ready');
+  }
+  
   markOnHold(e) {
-    let itemKey = e.target.id;
-    let date = this.getCurrentDate();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'on-hold'
-      });
-      this.tabsPage.getTabTotals();
+    this.sendMessage(e, 'on-hold');
   }
 
-  markReady(e) {
+  sendMessage(e, status){
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
-    let token = itemInfo[1];
+    let textOptIn = itemInfo[1];
+    let phone = itemInfo[2];
     let date = this.getCurrentDate();
     let time = this.getTime();
+    let payload;
+
+    console.log(itemInfo);
+
+    if (textOptIn == 'false'){
+      phone = undefined;
+    }
+
+    if (phone !== undefined){
+       payload = {
+        text: status+'|'+phone,
+        status: status,
+        time_completed: time
+      }
+    }else{
+      payload = {
+        status: status,
+        time_completed: time
+      }
+    }
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        message: 'ready|'+token,
-        status: 'ready',
-        time_readyToOrder: time
-      });
+      .update(payload);
       this.tabsPage.getTabTotals();
   }
 

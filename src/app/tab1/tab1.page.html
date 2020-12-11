@@ -1,10 +1,11 @@
+<img class="appLogo" src="../../assets/takeANumber.png" start />
 <ion-header class="topBar">
-  <img class="appLogo" src="../../assets/takeANumber.png" start />
   <ion-title>
-    Manage Orders
+    Manage<br/>Orders
   </ion-title>
   <img class="restaurantLogo" src="{{restaurantLogo}}" end />
 </ion-header>
+
 <ion-header>
   <ion-segment centered color="primary" [(ngModel)]="tab" (ionChange)="segmentChanged($event)">
     <ion-segment-button value="open">
@@ -42,24 +43,20 @@
                 <h2>{{item.id}} &mdash; {{item.name}}</h2>
               </ion-label>
               <ion-note slot="end">
-                <ion-button id="{{item.timeStamp + '_' + item.name}}" (click)="markWaiting($event)">
-                  <ion-icon slot="start" name="alarm"></ion-icon>
-                  Back to Waiting
-                </ion-button><br>
-                {{item.time}}
+                Started Order<br>@ {{item.time_inProgress}}
               </ion-note>
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}" (click)="markComplete($event)">
-                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markComplete($event)">
+                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}">
                 </ion-icon>
               </ion-item-option>
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name}}" (click)="markCancelled($event)">
-                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name}}"></ion-icon>
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markCancelled($event)">
+                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>
@@ -79,7 +76,7 @@
                 <h2>{{item.id}} &mdash; {{item.name}}</h2>
               </ion-label>
               <ion-note slot="end">
-                {{item.time}}
+                Started Order<br>@ {{item.time_inProgress}}
               </ion-note>
             </ion-item>
 
@@ -91,8 +88,8 @@
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name}}" (click)="markCancelled($event)">
-                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name}}"></ion-icon>
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markCancelled($event)">
+                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>
@@ -124,8 +121,8 @@
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}" (click)="markComplete($event)">
-                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name + '|' + item.token}}">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markComplete($event)">
+                <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}">
                 </ion-icon>
               </ion-item-option>
             </ion-item-options>

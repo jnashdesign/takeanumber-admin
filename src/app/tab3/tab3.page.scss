@@ -1,0 +1,17 @@
+.statBoxes {
+    text-align: center;
+    line-height: 1em;
+}
+.statBoxes h1 {
+    font-size: 4.5em;
+    font-weight: bold;
+    margin: -20px -10px;
+}
+ion-select {
+    border: 1px solid #eee;
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #888;
+    margin-left: 15px;
+    width: calc(100% - 30px);
+}

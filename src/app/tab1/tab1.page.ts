@@ -133,29 +133,42 @@ export class Tab1Page {
     
     return time;  
   }
-
   markComplete(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let token = itemInfo[1];
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        message: 'complete|'+token,
-        status: 'complete',
-        time_completed: time
-      });
-      this.tabsPage.getTabTotals();
+    this.sendMessage(e, 'complete');
+  }
+  markCancelled(e) {
+    this.sendMessage(e, 'cancelled');
   }
 
-  markCancelled(e) {
-    let itemKey = e.target.id;
+  sendMessage(e, status){
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let optInTexts = itemInfo[1];
+    let phone = itemInfo[2];
     let date = this.getCurrentDate();
+    let time = this.getTime();
+    let payload;
+
+    console.log(itemInfo);
+
+    if (optInTexts == 'false'){
+      phone = undefined;
+    }
+
+    if (phone !== undefined){
+       payload = {
+        text: status+'|'+phone,
+        status: status,
+        time_completed: time
+      }
+    }else{
+      payload = {
+        status: status,
+        time_completed: time
+      }
+    }
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'cancelled'
-      });
+      .update(payload);
       this.tabsPage.getTabTotals();
   }
 
