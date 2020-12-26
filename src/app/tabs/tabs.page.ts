@@ -72,17 +72,17 @@ export class TabsPage {
             this.inProgressTotal = tempArray.length;
             console.log(this.inProgressTotal);
             if (this.inProgressTotal > 0){
-              $('#tab-button-tab1').append('<style>#tab-button-tab1:before{content:"' + this.inProgressTotal + '"}</style>');
+              $('#tab-button-tab2').append('<style>#tab-button-tab2:before{content:"' + this.inProgressTotal + '"}</style>');
             }else{
-              $('#tab-button-tab1').append('<style>#tab-button-tab1:before{content:inherit}</style>');
+              $('#tab-button-tab2').append('<style>#tab-button-tab2:before{content:inherit}</style>');
             }
           } else if (status == 'waiting') {
             this.waitingTotal = tempArray.length;
             console.log(this.waitingTotal);
             if (this.waitingTotal > 0){
-            $('#tab-button-tab2').append('<style>#tab-button-tab2:before{content:"' + this.waitingTotal + '"}</style>');
+            $('#tab-button-tab1').append('<style>#tab-button-tab1:before{content:"' + this.waitingTotal + '"}</style>');
             }else{
-              $('#tab-button-tab2').append('<style>#tab-button-tab2:before{content:inherit}</style>');
+              $('#tab-button-tab1').append('<style>#tab-button-tab1:before{content:inherit}</style>');
             }
           } else {
             this.erroredOrders = tempArray;

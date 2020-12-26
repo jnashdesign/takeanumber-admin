@@ -76,9 +76,15 @@ ion-item-sliding {
   margin: 0 auto;
   box-shadow: 3px 0px 8px rgba(0,0,0,0.5);
 }
-.account-info ion-input {
+.account-info ion-input,
+.account-info ion-textarea {
   margin-top: 10px;
   text-align: right;
+  font-size: 0.8em;
+}
+.account-info ion-label,
+.account-info ion-select {
+  font-size: 0.8em;
 }
 ion-button {
   margin: 10px;
@@ -97,6 +103,30 @@ button {
   margin: 15px auto;
   display: block;
 }
+button.cancel {
+  background: #fb0929;
+}
+button.secondaryAction {
+  cursor: pointer;
+  color: #12ab44;
+  border: 1px solid #12ab44;
+  border-radius: 20px;
+  background: transparent;
+  font-size: 1em;
+  text-align: center;
+}
+.alert-button.sc-ion-alert-md {
+  display:inline-block;
+  width: calc(50% - 10px);
+  color: #111;
+  border-radius: 0;
+}
+.alert-button-inner.sc-ion-alert-md {
+  justify-content: center;
+}
+.alert-button.sc-ion-alert-md:nth-child(2) {
+  border-left: 1px solid #ddd;
+}
 ion-segment {
   width: calc(100% + 10px);
   margin-left: -5px;
@@ -107,17 +137,23 @@ ion-segment-button {
   --indicator-color-checked: 0;
   border-radius: 0;
   margin-bottom: 0;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   width: calc(100% / 3);
 }
 ion-segment-button.segment-button-checked {
   background: #fff;
   --border-width:0px;
   --indicator-color-checked: 0;   
+  --border-radius: 0;
 }
+
 ion-button.fullWidth {
   width: calc(100% - 20px);
+}
+.toastController {
+  --background: #222;
+  color: #fff;
 }
 .spacer {
   display:block;
@@ -177,6 +213,19 @@ p {
 }
 ion-tab-button {
   position: relative;
+}
+ion-tab-bar {
+  padding-bottom: 0 !important;
+}
+ion-tab-button {
+  background: #fff;
+  color: #444;
+}
+ion-tab-button.tab-selected {
+  border-top: 4px solid;
+  border-color: #111;
+  color: #111;
+  background: #fff;
 }
 #tab-button-tab1:before, #tab-button-tab2:before {
   position: absolute;

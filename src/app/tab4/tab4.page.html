@@ -1,0 +1,64 @@
+<ion-header class="topBar">
+  <img class="appLogo" src="../../assets/takeANumber.png" start />
+  <ion-title>
+    Account
+  </ion-title>
+  <img class="restaurantLogo" src="{{restaurantLogo}}" end />
+</ion-header>
+
+<ion-content class="account-info" [fullscreen]="true" padding>
+  <ion-card padding>
+    <ion-list>
+      <ion-item>
+        <ion-label>Business Name</ion-label>
+        <ion-input disabled value="{{restuarantName}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Taking Orders?
+        </ion-label>
+      <ion-select id="openStatus" value={{openStatus}} mode="android" ok-text="Okay" cancel-text="Cancel">
+        <ion-select-option value="open">Open</ion-select-option>
+        <ion-select-option value="closed">Closed</ion-select-option>
+        <ion-select-option value="soldOut">Sold out</ion-select-option>
+        <ion-select-option value="notTakingOrders">Not taking orders</ion-select-option>
+      </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Hours</ion-label>
+        <ion-input type="text" id="hours" value="{{hours}}"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Address</ion-label>
+        <ion-textarea placeholder="Enter more information here..." id="address" value="{{address}}"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>Email</ion-label>
+        <ion-input type="email" id="email" value="{{email}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Phone</ion-label>
+        <ion-input type="tel" id="phone" value="{{phone}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Website</ion-label>
+        <ion-input type="text" id="site" value="{{site}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Facebook</ion-label>
+        <ion-input type="text" id="facebook" value="{{facebook}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Instagram</ion-label>
+        <ion-input type="text" id="instagram" value="{{instagram}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Twitter</ion-label>
+        <ion-input type="text" id="twitter" value="{{twitter}}"></ion-input>
+      </ion-item>
+    </ion-list>
+    <button class="fullWidth" (click)="save()">Save</button>
+    <button class="fullWidth secondaryAction" (click)="logout()">Logout</button>
+  </ion-card>
+</ion-content>

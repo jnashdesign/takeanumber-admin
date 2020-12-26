@@ -1,7 +1,6 @@
 <ion-header class="topBar">
   <img class="appLogo" src="../../assets/takeANumber.png" start />
-  <ion-title>
-    Check<br/>Stats
+  <ion-title>Stats
   </ion-title>
   <img class="restaurantLogo" src="{{restaurantLogo}}" end />
 </ion-header>
@@ -16,7 +15,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- <ion-select placeholder="{{today}}" (ionChange)="onChange($event)" disabled></ion-select> -->
   <ion-row>
     <ion-col>
       <ion-card class="statBoxes">
@@ -43,26 +41,21 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Wait Times<br/><span style="font-size:0.75em">(From Getting Number Until Ready to Order)</span></ion-card-title>
+      <ion-card-title>Wait Times<br/><span style="font-size:0.5em">(From Getting Number Until Ready to Order)</span></ion-card-title>
     </ion-card-header>
     <ion-card-content class="waitChartContent">
       <canvas #waitTimeChart></canvas>
-      <p>Average Wait Time: <strong>{{avgWaitTime}} Minutes</strong></p>
+      <p><strong>Average Wait Time:</strong> {{avgWaitTime}}</p>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Total Order Times<br/><span style="font-size:0.75em">(From Getting Number to Order Completion)</span></ion-card-title>
+      <ion-card-title>Total Order Times<br/><span style="font-size:0.5em">(From Getting Number to Order Completion)</span></ion-card-title>
     </ion-card-header>
     <ion-card-content class="totalChartContent">
       <canvas #totalTimeChart></canvas>
-      <p>Average Total Order Time: <strong>{{avgOrderTime}} Minutes</strong></p>
+      <p><strong>Average Total Order Time:</strong> {{avgOrderTime}}</p>
     </ion-card-content>
   </ion-card>
-
-  <ion-card padding>
-    <button class="fullWidth inactive" (click)="logout()">Logout</button>
-  </ion-card>
-
 </ion-content>

@@ -14,6 +14,7 @@ export class Tab2Page {
   public userID;
   public firebaseUID;
   public firebaseName;
+  public restaurantName;
   public restaurantLogo;
   public itemList: any;
   public itemListReverse: any;
@@ -21,16 +22,16 @@ export class Tab2Page {
   public items = [];
   public tab;
 
-  public readyToOrderTotal: Number;
-  public waitingCustomersTotal: Number;
-  public onHoldTotal: Number;
+  public inProgressTotal: Number;
+  public completedTotal: Number;
+  public cancelledTotal: Number;
   public erroredOrders = [];
 
   constructor(
     public afd: AngularFireDatabase,
     public tabsPage: TabsPage,
     public storage: Storage) {
-    this.tab = 'waiting';
+    this.tab = 'open';
     this.getItems(this.getCurrentDate());
     if (localStorage.getItem('firebaseUID')){
       this.firebaseUID = localStorage.getItem('firebaseUID').replace(/['"]+/g, '');
@@ -54,6 +55,16 @@ export class Tab2Page {
       localStorage.setItem('planType',res.planType);
       localStorage.setItem('phone',res.phone);
       localStorage.setItem('email',res.email);
+      localStorage.setItem('site',res.site);
+      if (res.facebook){
+        localStorage.setItem('facebook',res.facebook);
+      }
+      if (res.instagram){
+        localStorage.setItem('instagram',res.instagram);
+      }
+      if (res.twitter){
+        localStorage.setItem('twitter', res.twitter);
+      }
     });
   }
 
@@ -77,10 +88,9 @@ export class Tab2Page {
         this.numItems = data.length;
         return data;
       });
-
-    this.getOrderData('waiting');
-    this.getOrderData('ready');
-    this.getOrderData('on-hold');
+    this.getOrderData('in-progress');
+    this.getOrderData('complete');
+    this.getOrderData('cancelled');
   }
 
   getOrderData(status) {
@@ -88,21 +98,24 @@ export class Tab2Page {
     this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + this.getCurrentDate() + '/',
       ref => ref.orderByChild('status').equalTo(status))
       .snapshotChanges().subscribe((res) => {
+        console.log(res);
         let tempArray: any = [];
         res.forEach((e) => {
           tempArray.push(e.payload.val())
         });
 
-        if (status == 'waiting') {
-          this.waitingCustomersTotal = tempArray.length;
-        } else if (status == 'ready') {
-          this.readyToOrderTotal = tempArray.length;
-        } else if (status == 'waiting') {
-            this.waitingCustomersTotal = tempArray.length;
-        } else if (status == 'on-hold') {
-          this.onHoldTotal = tempArray.length;
+        if (status == 'in-progress') {
+          this.inProgressTotal = tempArray.length;
+          console.log(tempArray)
+        } else if (status == 'complete') {
+          this.completedTotal = tempArray.length;
+          console.log(tempArray)
+        } else if (status == 'cancelled') {
+          this.cancelledTotal = tempArray.length;
+          console.log(tempArray)
         } else {
           this.erroredOrders = tempArray;
+          console.log(this.erroredOrders);
         }
       });
   }
@@ -130,29 +143,17 @@ export class Tab2Page {
     
     return time;  
   }
-
-  markWaiting(e) {
-    let itemKey = e.target.id;
-    let date = this.getCurrentDate();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'waiting'
-      });
-      this.tabsPage.getTabTotals();
+  markComplete(e) {
+    this.sendMessage(e, 'complete');
   }
-
-  markReady(e) {
-    this.sendMessage(e, 'ready');
-  }
-  
-  markOnHold(e) {
-    this.sendMessage(e, 'on-hold');
+  markCancelled(e) {
+    this.sendMessage(e, 'cancelled');
   }
 
   sendMessage(e, status){
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
-    let textOptIn = itemInfo[1];
+    let optInTexts = itemInfo[1];
     let phone = itemInfo[2];
     let date = this.getCurrentDate();
     let time = this.getTime();
@@ -160,7 +161,7 @@ export class Tab2Page {
 
     console.log(itemInfo);
 
-    if (textOptIn == 'false'){
+    if (optInTexts == 'false'){
       phone = undefined;
     }
 
@@ -181,7 +182,7 @@ export class Tab2Page {
       this.tabsPage.getTabTotals();
   }
 
-  markInProgress(e){
+  markInProgress(e) {
     let itemKey = e.target.id;
     let date = this.getCurrentDate();
     let time = this.getTime();
@@ -189,6 +190,16 @@ export class Tab2Page {
       .update({
         status: 'in-progress',
         time_inProgress: time
+      });
+      this.tabsPage.getTabTotals();
+  }
+
+  markWaiting(e) {
+    let itemKey = e.target.id;
+    let date = this.getCurrentDate();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'waiting'
       });
       this.tabsPage.getTabTotals();
   }
