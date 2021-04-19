@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'add-customer',
     loadChildren: () => import('./add-customer/add-customer.module').then( m => m.AddCustomerPageModule)
   },
+  {
+    path: 'text-customer',
+    loadChildren: () => import('./text-customer/text-customer.module').then( m => m.TextCustomerPageModule)
+  },
 ];
 @NgModule({
   imports: [

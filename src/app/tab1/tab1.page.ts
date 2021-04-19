@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { TabsPage } from '../tabs/tabs.page';
 import { ModalController } from '@ionic/angular';
 import { AddCustomerPage } from '../add-customer/add-customer.page';
-
+import { TextCustomerPage } from '../text-customer/text-customer.page';
 declare var $: any;
 
 @Component({
@@ -46,9 +46,14 @@ export class Tab1Page {
     this.tabsPage.getTabTotals();
   }
 
-  async presentModal() {
+  async addCustomerModal(e) {
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let phone = itemInfo[2];
+
     const modal = await this.modalController.create({
-      component: AddCustomerPage
+      component: AddCustomerPage,
+      
     });
     return await modal.present();
   }
@@ -209,37 +214,23 @@ export class Tab1Page {
       this.tabsPage.getTabTotals();
   }
 
-  openMessagePopup(e){
-  // Open popup for text message
-  }
-
-  sendPersonalMessage(e, message){
+  async textCustomerModal(e) {
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
-    let textOptIn = itemInfo[1];
+    let itemKeySplit = itemKey.split('_');
+    let name = itemKeySplit[1];
     let phone = itemInfo[2];
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    let payload;
 
-    if (textOptIn == 'false'){
-      phone = undefined;
-    }
-
-    if (phone !== undefined){
-       payload = {
-        messages: {
-          time: time + '|' + message
-        }
+    const modal = await this.modalController.create({
+      component: TextCustomerPage,
+      componentProps: { 
+        phoneNumber: phone,
+        itemKey: itemKey,
+        name: name
       }
-    }else{
-      // show error
-    }
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update(payload);
-      this.tabsPage.getTabTotals();
+    });
+    return await modal.present();
   }
-
 
   sendStatusUpdate(e, status){
     let itemInfo = e.target.id.split('|');

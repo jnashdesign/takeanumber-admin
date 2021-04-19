@@ -1,0 +1,25 @@
+<ion-header class="topBar">
+  <ion-title style="text-align: left;">Send A Text to {{name}}</ion-title>
+  <img class="closeIcon" (click)="this.close()" src="../../assets/close.svg" start />
+</ion-header>
+
+<ion-content class="message-info" [fullscreen]="true" padding>
+  <ion-card padding>
+    <ion-list>
+      <h3 style="padding: 0 15px">What kind of message should we send?</h3>
+      <p style="font-weight: bold; padding: 0 15px">Message Topic</p>
+      <ion-item>
+      <ion-select id="messageTopic" [(ngModel)]="messageTopic" (ionChange)="topicChanged($event)" value="moreInfo" mode="android" ok-text="Okay" cancel-text="Cancel">
+        <ion-select-option value="moreInfo">More info needed.</ion-select-option>
+        <ion-select-option value="orderProblem">Problem with the order.</ion-select-option>
+        <ion-select-option value="soldOut">Something is sold out.</ion-select-option>
+      </ion-select>
+      </ion-item>
+    </ion-list>
+    <p style="font-weight: bold; margin: 20px 0 10px; padding: 0 15px">Message Preview:</p>
+    <div class="messagePreview">
+      <p>{{messagePreview}}</p>
+    </div>
+    <button class="fullWidth" (click)="sendPersonalMessage()">Send the Text</button>
+  </ion-card>
+</ion-content>

@@ -71,6 +71,9 @@ ion-item-sliding {
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
 }
+.sc-ion-alert-md-h {
+  --min-width: 80%;
+}
 .ion-page {
   max-width: 500px;
   margin: 0 auto;
@@ -305,9 +308,56 @@ ion-tab-button.tab-selected {
   font-weight: bold;
   z-index: 9;
 }
+
 #totalTimeChart, #waitTimeChart {
   display:none;
 }
+
+#messageTopic {
+  width: 100%;
+  max-width: none;
+  // text-align: right;
+}
+
+.message-info ion-label {
+  flex: none;
+  font-weight: bold;
+  display: none !important;
+}
+
+.messagePreview p {
+  width: calc(80% - 30px);
+  padding: 20px;
+  background: #EEE;
+  margin: 0 15px;
+  border-radius: 20px;
+  color: #111;
+  position: relative;
+}
+.messagePreview p:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: -7px;
+  height: 20px;
+  width: 20px;
+  background: #eee;
+  border-bottom-right-radius: 15px;
+}
+
+.messagePreview p:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-right-radius: 10px;
+}
+
 @media (prefers-color-scheme: dark) {
   ion-segment-button {
     color: #fff;

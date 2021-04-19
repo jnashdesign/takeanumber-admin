@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import { TabsPage } from '../tabs/tabs.page';
 import { ModalController } from '@ionic/angular';
 import { AddCustomerPage } from '../add-customer/add-customer.page';
+import { TextCustomerPage } from '../text-customer/text-customer.page';
 declare var $: any;
 
 @Component({
@@ -46,9 +47,27 @@ export class Tab2Page {
     this.tabsPage.getTabTotals();
   }
 
-  async presentModal() {
+  async addCustomerModal() {
     const modal = await this.modalController.create({
       component: AddCustomerPage
+    });
+    return await modal.present();
+  }
+
+  async textCustomerModal(e) {
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let itemKeySplit = itemKey.split('_');
+    let name = itemKeySplit[1];
+    let phone = itemInfo[2];
+
+    const modal = await this.modalController.create({
+      component: TextCustomerPage,
+      componentProps: { 
+        phoneNumber: phone,
+        itemKey: itemKey,
+        name: name
+      }
     });
     return await modal.present();
   }

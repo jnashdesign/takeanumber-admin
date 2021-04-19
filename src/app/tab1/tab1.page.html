@@ -1,6 +1,6 @@
 <a href="http://takeanumber.tech" target="_blank"><img class="appLogo" src="../../assets/takeANumber.png" end/></a>
 <ion-header class="topBar">
-  <ion-icon class="addCustomerIcon" (click)="presentModal()" name="person-add"></ion-icon>
+  <ion-icon class="addCustomerIcon" (click)="addCustomerModal()" name="person-add"></ion-icon>
   <img class="restaurantLogo" src="{{restaurantLogo}}" end/>
 </ion-header>
 
@@ -60,7 +60,7 @@
                 <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
-              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="openMessagePopup($event)">
+              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="textCustomerModal($event)">
                 <ion-icon slot="icon-only" name="chatbox-ellipses" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
@@ -101,7 +101,7 @@
                 <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
-              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markOnHold($event)">
+              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="textCustomerModal($event)">
                 <ion-icon slot="icon-only" name="chatbox-ellipses" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
