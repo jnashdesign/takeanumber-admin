@@ -23,7 +23,7 @@ export class TabsPage {
     public afAuth: AngularFireAuth,
     public alrtCtrl: AlertController) {
       // localStorage.setItem('loggedIn','true');
-      // localStorage.setItem('firebaseUID','nwO2FR0TeHVxXX60sEadtmAeVLA3');
+      // localStorage.setItem('firebaseUID','VN1XqtC3M8PqNn3MQP12lX7NYsx2');
 
       if (localStorage.getItem('loggedIn') !== 'true'){
         this.loggedOutAlert();

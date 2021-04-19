@@ -168,10 +168,50 @@ p {
   min-height: 80px;
   background: #fff;
 }
-#nameInput {
-  font-size: 1.5em;
+// #nameInput {
+//   font-size: 1.5em;
+//   font-weight: bold;
+//   margin-top: -0.5em;
+// }
+#nameInput, #phoneNumberInput {
+  border: 1px solid #777;
+  padding-left: 10px!important;
+  border-radius: 4px;
+  color: #999;
+  margin-top: 10px;
+}
+.myNumberCard {
+  text-align: center;
+  margin: 0 auto;
+}
+.myNumberCard ion-card {
+  margin-top: -10px;
+  padding: 20px 0;
+}
+.myNumberCard h3 {
+  font-size: 1em;
+  margin: 0;
+}
+.myNumberCard h1 {
+  font-size: 8em;
   font-weight: bold;
-  margin-top: -0.5em;
+  line-height: 0.8em;
+  margin-top: 0;
+}
+ion-label span.end {
+  position: absolute;
+  right: 20px;
+}
+.label-floating.md {
+  padding-bottom: 10px !important;
+}
+.myNumberCard h2 {
+  font-size: 2em;
+  line-height: 0.8em;
+}
+.myNumberCard .name {
+  line-height: 1.25em;
+  margin: -10px 0 0;
 }
 .list-md {
   padding: 0;
@@ -194,6 +234,30 @@ p {
   position: absolute;
   top: 5px;
   height: 50px;
+}
+.sideMenu ion-item:first-child {
+  margin-top: 100px;
+}
+.closeIcon {
+  width: 25px;
+  z-index: 999;
+  position: absolute;
+  top: 5px;
+  height: 50px;
+  right: 20px;
+  cursor: pointer;
+}
+.addCustomerIcon {
+  width: 20px;
+  z-index: 999;
+  position: absolute;
+  top: 15px;
+  height: 20px;
+  right: 20px;
+  cursor: pointer;
+  border: 2px solid #555;
+  border-radius: 50%;
+  padding: 10px;
 }
 .appLogo {
   max-width: 85px;
@@ -243,4 +307,64 @@ ion-tab-button.tab-selected {
 }
 #totalTimeChart, #waitTimeChart {
   display:none;
+}
+@media (prefers-color-scheme: dark) {
+  ion-segment-button {
+    color: #fff;
+    background: #444;
+  }
+  ion-segment-button.segment-button-checked {
+    background: #000 !important;
+  }
+  ion-content {
+    --background: #595959 !important;
+    --background-color: #595959 !important;
+    background-color: #595959 !important;
+  }
+  ion-item, ion-card {
+    --background: #222 !important;
+    --background-color: #222 !important;
+    background-color: #222 !important;
+  }
+  .textSettingsContainer {
+    --background: #777 !important;
+    --background-color: #777 !important;
+    background-color: #777 !important;
+    color: #000 !important;
+    border-color: #000;
+  }
+  .textSettingsContainer ion-item {
+    --background: #777 !important;
+    --background-color: #777 !important;
+    background-color: #777 !important;
+  }
+  .textSettingsContainer h5,
+  .textSettingsContainer p,
+  .textSettingsContainer a {
+    color: #000 !important;
+  }
+  #nameInput, #phoneNumberInput {
+    border: 1px solid #777;
+    padding-left: 10px!important;
+    border-radius: 4px;
+    background: #000;
+    color: #999;
+  }
+  .topBar {
+    --background: #444 !important;
+    --background-color: #444 !important;
+    background-color: #444 !important;
+  }
+  .checkTextSettings {
+    color: #fff;
+    border: 1px solid #fff;
+  }
+  ion-tab-button {
+    background: #222 !important;
+    color:#ddd;
+  }
+  ion-tab-button.tab-selected {
+    border-color: #12ab44;
+    color: #12ab44;
+  }
 }

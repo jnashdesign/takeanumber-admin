@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Storage } from '@ionic/storage';
 import { TabsPage } from '../tabs/tabs.page';
+import { ModalController } from '@ionic/angular';
+import { AddCustomerPage } from '../add-customer/add-customer.page';
+
 declare var $: any;
 
 @Component({
@@ -29,6 +32,7 @@ export class Tab1Page {
   constructor(
     public afd: AngularFireDatabase,
     public tabsPage: TabsPage,
+    public modalController: ModalController,
     public storage: Storage) {
     this.tab = 'waiting';
     this.getItems(this.getCurrentDate());
@@ -40,6 +44,13 @@ export class Tab1Page {
 
   ionViewWillEnter(){
     this.tabsPage.getTabTotals();
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: AddCustomerPage
+    });
+    return await modal.present();
   }
 
   setData(firebaseUID){
@@ -133,7 +144,8 @@ export class Tab1Page {
   }
 
   markWaiting(e) {
-    let itemKey = e.target.id;
+    let idInfo = e.target.id.split('|');
+    let itemKey = idInfo[0];
     let date = this.getCurrentDate();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
@@ -143,14 +155,93 @@ export class Tab1Page {
   }
 
   markReady(e) {
-    this.sendMessage(e, 'ready');
+    this.sendStatusUpdate(e, 'ready');
+    let idInfo = e.target.id.split('|');
+    console.log(idInfo[0]);
+    let itemKey = idInfo[0];
+    let date = this.getCurrentDate();
+    let time = this.getTime();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'ready',
+        time_ready: time
+      });
+      this.tabsPage.getTabTotals();
+  }
+
+  markInProgress(e){
+    this.sendStatusUpdate(e, 'in-progress');
+    let idInfo = e.target.id.split('|');
+    let itemKey = idInfo[0];
+    let date = this.getCurrentDate();
+    let time = this.getTime();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'in-progress',
+        time_inProgress: time
+      });
+      this.tabsPage.getTabTotals();
   }
   
   markOnHold(e) {
-    this.sendMessage(e, 'on-hold');
+    this.sendStatusUpdate(e, 'on-hold');
+    let idInfo = e.target.id.split('|');
+    let itemKey = idInfo[0];
+    let date = this.getCurrentDate();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'on-hold'
+      });
+      this.tabsPage.getTabTotals();
   }
 
-  sendMessage(e, status){
+  markCancelled(e) {
+    this.sendStatusUpdate(e, 'cancelled');
+    let idInfo = e.target.id.split('|');
+    let itemKey = idInfo[0];
+    let date = this.getCurrentDate();
+    let time = this.getTime();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'cancelled',
+        time_cancelled: time
+      });
+      this.tabsPage.getTabTotals();
+  }
+
+  openMessagePopup(e){
+  // Open popup for text message
+  }
+
+  sendPersonalMessage(e, message){
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let textOptIn = itemInfo[1];
+    let phone = itemInfo[2];
+    let date = this.getCurrentDate();
+    let time = this.getTime();
+    let payload;
+
+    if (textOptIn == 'false'){
+      phone = undefined;
+    }
+
+    if (phone !== undefined){
+       payload = {
+        messages: {
+          time: time + '|' + message
+        }
+      }
+    }else{
+      // show error
+    }
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update(payload);
+      this.tabsPage.getTabTotals();
+  }
+
+
+  sendStatusUpdate(e, status){
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
     let textOptIn = itemInfo[1];
@@ -179,18 +270,6 @@ export class Tab1Page {
     }
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update(payload);
-      this.tabsPage.getTabTotals();
-  }
-
-  markInProgress(e){
-    let itemKey = e.target.id;
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'in-progress',
-        time_inProgress: time
-      });
       this.tabsPage.getTabTotals();
   }
 

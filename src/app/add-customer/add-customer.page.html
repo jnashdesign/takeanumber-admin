@@ -1,0 +1,39 @@
+<ion-header class="topBar">
+  <ion-title style="text-align: left;">Add Customer Manually</ion-title>
+  <img class="closeIcon" (click)="this.close()" src="../../assets/close.svg" start />
+</ion-header>
+
+<ion-content padding [fullscreen]="true">
+    <ion-card>
+      <div class="needANumber" *ngIf="!timeStamp; else hasTimeStamp">
+        <ion-grid style="margin-top: -1em">
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <span style="font-weight: bold;font-size:1em;margin-bottom: 0px;">Get the customer's name and number, then let them know they will recieve a text message now and again when their order is ready.<br><br>You can let them know, they can check thier status at http://thetanapp.com</span>
+                <ion-label position="stacked">Customer Name</ion-label>
+                <ion-input id="nameInput" placeholder="Enter Customer Name" type="text" [(ngModel)]="name">
+                </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Customer Number</ion-label>
+                <ion-input mode="ios" id="phoneNumberInput" type="text" placeholder="My Number" (keypress)="numbersOnly($event)" [(ngModel)]="phoneNumber">
+                </ion-input>
+              </ion-item> 
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <button class="reseveASpotBtn" expand="full" (click)="validateInfo()" color="secondary">
+          Add Customer
+        </button>
+      </div>
+
+      <ng-template #hasTimeStamp>
+          <div class="myNumberCard">
+            <h2 class="name">{{name}} added</h2>
+            <h1 class="myID">{{numItems}}</h1>
+            <p>You can close this window now.</p>
+          </div>
+      </ng-template>
+    </ion-card>
+</ion-content>

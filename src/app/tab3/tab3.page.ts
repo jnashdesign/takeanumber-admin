@@ -9,6 +9,7 @@ declare var $: any;
   templateUrl: './tab3.page.html',
   styleUrls: ['./tab3.page.scss'],
 })
+
 export class Tab3Page implements OnInit {
   @ViewChild('totalTimeChart') totalTimeChart;
   @ViewChild('waitTimeChart') waitTimeChart;
@@ -77,24 +78,30 @@ export class Tab3Page implements OnInit {
             let timeCompleted = this.processtime(element.time_completed);
             let totalOrderTime = timeCompleted - timeGotNumber;
             let timeWaiting = timeOrderStarted - timeGotNumber;
-            OrderTimeSum = OrderTimeSum + totalOrderTime;
-            WaitTimeSum = WaitTimeSum + timeWaiting;
-            orderIDArray.push(element.id);
-            orderTimeArray.push(totalOrderTime);
-            waitTimeArray.push(timeWaiting)
-            orderTimes.push({
-              id: element.id,
-              timeOrderStarted: element.time_gotNumber,
-              timeOrderInProgress: element.time_inProgress,
-              timeOrderCompleted: element.time_completed,
-              timeWaiting: timeWaiting,
-              totalOrderTime: totalOrderTime
-            });
+            // console.log(timeWaiting);
+            if (timeGotNumber && timeOrderStarted && timeCompleted && totalOrderTime && timeWaiting){
+              OrderTimeSum = OrderTimeSum + totalOrderTime;
+              WaitTimeSum = WaitTimeSum + timeWaiting;
+              orderIDArray.push(element.id);
+              orderTimeArray.push(totalOrderTime);
+              waitTimeArray.push(timeWaiting);
+              console.log(waitTimeArray);
+              orderTimes.push({
+                id: element.id,
+                timeOrderStarted: element.time_gotNumber,
+                timeOrderInProgress: element.time_inProgress,
+                timeOrderCompleted: element.time_completed,
+                timeWaiting: timeWaiting,
+                totalOrderTime: totalOrderTime
+              });
+            }
           }
         });
         this.cancelledOrders = cancelledList.length;
         let avgOrderTimeInfo = OrderTimeSum /orderTimes.length;
         let avgWaitTimeInfo = WaitTimeSum / orderTimes.length;
+        console.log('orderTimesLength',orderTimes.length);
+        console.log('WaitTimeSum',WaitTimeSum);
         if (avgWaitTimeInfo){
           this.avgWaitTime = avgWaitTimeInfo.toFixed(0) + ' Minutes';
         }else{
@@ -188,20 +195,23 @@ export class Tab3Page implements OnInit {
   }
 
   processtime(time){
-    time = time.split(' ');
-    let timeFormatted = time[0].split(':');
-    let hourNumber = timeFormatted[0];
-    if (hourNumber !== '12'){
-      if (time[1] == 'PM' || hourNumber !== '12'){
-        hourNumber = JSON.parse(hourNumber) + 12;
-      }else{
-        // do nothing
+    // console.log(time);
+    if (time){
+      time = time.split(' ');
+      let timeFormatted = time[0].split(':');
+      let hourNumber = timeFormatted[0];
+      if (hourNumber !== '12'){
+        if (time[1] == 'PM' || hourNumber !== '12'){
+          hourNumber = JSON.parse(hourNumber) + 12;
+        }else{
+          // do nothing
+        }
       }
+      let hourInMinutes = JSON.parse(hourNumber) * 60;
+      let minutes = parseInt(timeFormatted[1]);
+      let totalMinutes = hourInMinutes + minutes
+      return totalMinutes;  
     }
-    let hourInMinutes = JSON.parse(hourNumber) * 60;
-    let minutes = parseInt(timeFormatted[1]);
-    let totalMinutes = hourInMinutes + minutes
-    return totalMinutes;
   }
 
   getDates(){

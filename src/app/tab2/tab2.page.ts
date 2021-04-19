@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Storage } from '@ionic/storage';
 import { TabsPage } from '../tabs/tabs.page';
+import { ModalController } from '@ionic/angular';
+import { AddCustomerPage } from '../add-customer/add-customer.page';
 declare var $: any;
 
 @Component({
@@ -30,6 +32,7 @@ export class Tab2Page {
   constructor(
     public afd: AngularFireDatabase,
     public tabsPage: TabsPage,
+    public modalController: ModalController,
     public storage: Storage) {
     this.tab = 'open';
     this.getItems(this.getCurrentDate());
@@ -41,6 +44,13 @@ export class Tab2Page {
 
   ionViewWillEnter(){
     this.tabsPage.getTabTotals();
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: AddCustomerPage
+    });
+    return await modal.present();
   }
 
   setData(firebaseUID){
@@ -143,27 +153,47 @@ export class Tab2Page {
     
     return time;  
   }
-  markComplete(e) {
-    this.sendMessage(e, 'complete');
-  }
-  markCancelled(e) {
-    this.sendMessage(e, 'cancelled');
+
+  openMessagePopup(e){
+    // Open popup for text message
   }
 
-  sendMessage(e, status){
+  sendPersonalMessage(e, message){
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
-    let optInTexts = itemInfo[1];
+    let textOptIn = itemInfo[1];
     let phone = itemInfo[2];
     let date = this.getCurrentDate();
     let time = this.getTime();
     let payload;
 
-    console.log(itemInfo);
-
-    if (optInTexts == 'false'){
+    if (textOptIn == 'false'){
       phone = undefined;
     }
+
+    if (phone !== undefined){
+       payload = {
+        messages: {
+          time: time + '|' + message
+        }
+      }
+    }else{
+      // show error
+    }
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update(payload);
+      this.tabsPage.getTabTotals();
+  }
+
+  sendStatusUpdate(e, status){
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
+    let date = this.getCurrentDate();
+    let time = this.getTime();
+    let payload;
+
+    console.log(itemInfo);
 
     if (phone !== undefined){
        payload = {
@@ -183,7 +213,9 @@ export class Tab2Page {
   }
 
   markInProgress(e) {
-    let itemKey = e.target.id;
+    this.sendStatusUpdate(e, 'in-progress');
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
     let date = this.getCurrentDate();
     let time = this.getTime();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
@@ -195,11 +227,53 @@ export class Tab2Page {
   }
 
   markWaiting(e) {
-    let itemKey = e.target.id;
+    this.sendStatusUpdate(e, 'waiting');
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
     let date = this.getCurrentDate();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
         status: 'waiting'
+      });
+      this.tabsPage.getTabTotals();
+  }
+
+  markComplete(e) {
+    this.sendStatusUpdate(e, 'complete');
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let date = this.getCurrentDate();
+    let time = this.getTime();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'complete',
+        time_completed: time
+      });
+      this.tabsPage.getTabTotals();
+  }
+
+  markOnHold(e) {
+    this.sendStatusUpdate(e, 'on-hold');
+    let idInfo = e.target.id.split('|');
+    let itemKey = idInfo[0];
+    let date = this.getCurrentDate();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'on-hold'
+      });
+      this.tabsPage.getTabTotals();
+  }
+
+  markCancelled(e) {
+    this.sendStatusUpdate(e, 'cancelled');
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let date = this.getCurrentDate();
+    let time = this.getTime();
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+      .update({
+        status: 'cancelled',
+        time_cancelled: time
       });
       this.tabsPage.getTabTotals();
   }

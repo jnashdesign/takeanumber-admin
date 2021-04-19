@@ -39,7 +39,37 @@
     </ion-col>   
   </ion-row>
 
-  <ion-card>
+  <ion-row>
+    <ion-col>
+      <ion-card class="statBoxes">
+        <ion-card-header>
+          <ion-card-subtitle>Average Wait Time</ion-card-subtitle>
+          <ion-card-content *ngIf="avgWaitTime == 'Not enough info'; else gotAvgWaitTime">
+            <h1>{{avgWaitTime}}</h1>
+          </ion-card-content>
+          <ng-template #gotAvgWaitTime>
+            <h2>{{avgWaitTime}}</h2>
+          </ng-template>
+        </ion-card-header>
+      </ion-card>    
+    </ion-col>  
+
+    <ion-col>
+      <ion-card class="statBoxes">
+        <ion-card-header>
+          <ion-card-subtitle>Average Order Time</ion-card-subtitle>
+          <ion-card-content *ngIf="avgOrderTime == 'Not enough info'; else gotAvgOrderTime">
+            <h1>{{avgOrderTime}}</h1>
+          </ion-card-content>
+          <ng-template #gotAvgOrderTime>
+            <h2>{{avgOrderTime}}</h2>
+          </ng-template>
+        </ion-card-header>
+      </ion-card>    
+    </ion-col>   
+  </ion-row>
+
+  <!-- <ion-card>
     <ion-card-header>
       <ion-card-title>Wait Times<br/><span style="font-size:0.5em">(From Getting Number Until Ready to Order)</span></ion-card-title>
     </ion-card-header>
@@ -47,9 +77,9 @@
       <canvas #waitTimeChart></canvas>
       <p><strong>Average Wait Time:</strong> {{avgWaitTime}}</p>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 
-  <ion-card>
+  <!-- <ion-card>
     <ion-card-header>
       <ion-card-title>Total Order Times<br/><span style="font-size:0.5em">(From Getting Number to Order Completion)</span></ion-card-title>
     </ion-card-header>
@@ -57,5 +87,5 @@
       <canvas #totalTimeChart></canvas>
       <p><strong>Average Total Order Time:</strong> {{avgOrderTime}}</p>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 </ion-content>
