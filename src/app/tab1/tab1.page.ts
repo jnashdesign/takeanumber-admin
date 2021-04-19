@@ -46,14 +46,9 @@ export class Tab1Page {
     this.tabsPage.getTabTotals();
   }
 
-  async addCustomerModal(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[2];
-
+  async addCustomerModal() {
     const modal = await this.modalController.create({
-      component: AddCustomerPage,
-      
+      component: AddCustomerPage
     });
     return await modal.present();
   }
@@ -235,7 +230,6 @@ export class Tab1Page {
   sendStatusUpdate(e, status){
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
-    let textOptIn = itemInfo[1];
     let phone = itemInfo[2];
     let date = this.getCurrentDate();
     let time = this.getTime();
@@ -243,22 +237,12 @@ export class Tab1Page {
 
     console.log(itemInfo);
 
-    if (textOptIn == 'false'){
-      phone = undefined;
-    }
-
-    if (phone !== undefined){
        payload = {
         text: status+'|'+phone,
         status: status,
         time_completed: time
       }
-    }else{
-      payload = {
-        status: status,
-        time_completed: time
-      }
-    }
+
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update(payload);
       this.tabsPage.getTabTotals();

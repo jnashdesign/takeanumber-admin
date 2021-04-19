@@ -180,25 +180,17 @@ export class Tab2Page {
   sendPersonalMessage(e, message){
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
-    let textOptIn = itemInfo[1];
     let phone = itemInfo[2];
     let date = this.getCurrentDate();
     let time = this.getTime();
     let payload;
 
-    if (textOptIn == 'false'){
-      phone = undefined;
-    }
-
-    if (phone !== undefined){
        payload = {
         messages: {
           time: time + '|' + message
         }
       }
-    }else{
-      // show error
-    }
+
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update(payload);
       this.tabsPage.getTabTotals();
