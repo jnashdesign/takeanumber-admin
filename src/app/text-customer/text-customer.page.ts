@@ -12,7 +12,7 @@ export class TextCustomerPage implements OnInit {
   itemKey;
   name;
   messageTopic = 'moreInfo';
-  messagePreview = 'Take A Number: Please see the restaurant owner, we need more info.';
+  messagePreview = 'TakeANumber: Please see the restaurant owner, we need more info.';
 
   constructor(
     public afd: AngularFireDatabase,
@@ -24,14 +24,14 @@ export class TextCustomerPage implements OnInit {
 
   topicChanged(){
     if (this.messageTopic == 'moreInfo'){
-      this.messagePreview = 'Take A Number: We need more information, please see the restaurant staff.';
+      this.messagePreview = 'TakeANumber: We need more information, please see the restaurant staff.';
     } else if (this.messageTopic == 'orderProblem'){
-      this.messagePreview = 'Take A Number: There\'s a problem with your order, please see the restaurant staff.';      
+      this.messagePreview = 'TakeANumber: There\'s a problem with your order, please see the restaurant staff.';      
     } else if (this.messageTopic == 'soldOut'){
-      this.messagePreview = 'Take A Number: One of the items you ordered is sold out, please see the restaurant staff.';
+      this.messagePreview = 'TakeANumber: One of the items you ordered is sold out, please see the restaurant staff.';
     } else {
       this.messageTopic = 'moreInfo';
-      this.messagePreview = 'Take A Number: We need more information, please see the restaurant staff.';
+      this.messagePreview = 'TakeANumber: We need more information, please see the restaurant staff.';
     }
   }
 
