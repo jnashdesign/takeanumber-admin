@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-text-customer',
@@ -16,6 +16,7 @@ export class TextCustomerPage implements OnInit {
 
   constructor(
     public afd: AngularFireDatabase,
+    public toastCtrl: ToastController,
     public modalController: ModalController) { }
 
   ngOnInit() {
@@ -43,16 +44,28 @@ export class TextCustomerPage implements OnInit {
     });
   }
 
-  sendPersonalMessage(message){
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Your text message has been sent.',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  sendPersonalMessage(){
+    console.log('test');
     let date = this.getCurrentDate();
     let time = this.getTime();
+    let timestamp = new Date().getTime();
     let payload = {
-        messages: {
-          time: time + '|' + this.phoneNumber + '|' + message
-        }
+          time: time,
+          phoneNumber: this.phoneNumber,
+          message: this.messagePreview
       }
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + this.itemKey)
-      .update(payload);
+      
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + this.itemKey + '/' + 'messages' + '/' + timestamp).update(payload);
+    
+    this.presentToast();
   }
 
   getCurrentDate() {
