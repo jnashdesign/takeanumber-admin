@@ -46,22 +46,22 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markReady($event)">
-                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markReady($event)">
+                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}">
                 </ion-icon>
               </ion-item-option>
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markOnHold($event)">
-                <ion-icon slot="icon-only" name="pause-circle" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markOnHold($event)">
+                <ion-icon slot="icon-only" name="pause-circle" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
-              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markCancelled($event)">
-                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markCancelled($event)">
+                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
-              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="textCustomerModal($event)">
-                <ion-icon slot="icon-only" name="chatbox-ellipses" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="textCustomerModal($event)">
+                <ion-icon slot="icon-only" name="chatbox-ellipses" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>
@@ -88,21 +88,21 @@
                 <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name}}">
                 </ion-icon>
               </ion-item-option>
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markInProgress($event)">
-                <ion-icon slot="icon-only" name="restaurant" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markInProgress($event)">
+                <ion-icon slot="icon-only" name="restaurant" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markOnHold($event)">
-                <ion-icon slot="icon-only" name="pause-circle" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markOnHold($event)">
+                <ion-icon slot="icon-only" name="pause-circle" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
-              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markCancelled($event)">
-                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markCancelled($event)">
+                <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
-              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="textCustomerModal($event)">
-                <ion-icon slot="icon-only" name="chatbox-ellipses" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option color="secondary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="textCustomerModal($event)">
+                <ion-icon slot="icon-only" name="chatbox-ellipses" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>
@@ -130,15 +130,15 @@
               <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name}}" (click)="markWaiting($event)">
                 <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name}}"></ion-icon>
               </ion-item-option>
-              <ion-item-option id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markInProgress($event)">
-                <ion-icon slot="icon-only" name="restaurant" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"></ion-icon>
+              <ion-item-option id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markInProgress($event)">
+                <ion-icon slot="icon-only" name="restaurant" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}" (click)="markReady($event)">
-                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.optInTexts + '|' + item.phone}}"
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markReady($event)">
+                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"
                   (click)="markReady($event)"></ion-icon>
               </ion-item-option>
             </ion-item-options>

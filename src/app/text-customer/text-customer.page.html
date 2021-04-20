@@ -9,7 +9,7 @@
       <h3 style="padding: 0 15px">What kind of message should we send?</h3>
       <p style="font-weight: bold; padding: 0 15px">Message Topic</p>
       <ion-item>
-      <ion-select id="messageTopic" [(ngModel)]="messageTopic" (ionChange)="topicChanged($event)" value="moreInfo" mode="android" ok-text="Okay" cancel-text="Cancel">
+      <ion-select id="messageTopic" [(ngModel)]="messageTopic" (ionChange)="topicChanged()" value="moreInfo" mode="android" ok-text="Okay" cancel-text="Cancel">
         <ion-select-option value="moreInfo">More info needed.</ion-select-option>
         <ion-select-option value="orderProblem">Problem with the order.</ion-select-option>
         <ion-select-option value="soldOut">Something is sold out.</ion-select-option>
