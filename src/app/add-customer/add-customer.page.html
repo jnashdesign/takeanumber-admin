@@ -10,14 +10,14 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <span style="font-weight: bold;font-size:1em;margin-bottom: 0px;">Get the customer's name and number, then let them know they will recieve a text message now and again when their order is ready.<br><br>You can let them know, they can check thier status at http://thetanapp.com</span>
+                <span style="font-weight: bold;font-size:1em;margin-bottom: 0px;">Get the customer's name and number, then let them know they will recieve a text message now and again when their order is ready.</span>
                 <ion-label position="stacked">Customer Name</ion-label>
-                <ion-input id="nameInput" placeholder="Enter Customer Name" type="text" [(ngModel)]="name">
+                <ion-input id="nameInput" placeholder="Customer Name" type="text" [(ngModel)]="name">
                 </ion-input>
               </ion-item>
               <ion-item>
                 <ion-label position="stacked">Customer Number</ion-label>
-                <ion-input mode="ios" id="phoneNumberInput" type="text" placeholder="My Number" (keypress)="numbersOnly($event)" [(ngModel)]="phoneNumber">
+                <ion-input mode="ios" id="phoneNumberInput" type="text" placeholder="Customer Phone Number" (keypress)="numbersOnly($event)" [(ngModel)]="phoneNumber">
                 </ion-input>
               </ion-item> 
             </ion-col>

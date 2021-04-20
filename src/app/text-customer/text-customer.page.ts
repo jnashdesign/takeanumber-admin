@@ -55,15 +55,11 @@ export class TextCustomerPage implements OnInit {
   sendPersonalMessage(){
     console.log('test');
     let date = this.getCurrentDate();
-    let time = this.getTime();
-    let timestamp = new Date().getTime();
     let payload = {
-          time: time,
-          phoneNumber: this.phoneNumber,
-          message: this.messagePreview
-      }
-      
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + this.itemKey + '/' + 'messages' + '/' + timestamp).update(payload);
+      messages: this.phoneNumber + '|' + this.messagePreview
+    };
+
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + this.itemKey).update(payload);
     
     this.presentToast();
   }
