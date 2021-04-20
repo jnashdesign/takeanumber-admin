@@ -47,8 +47,7 @@
 
             <ion-item-options side="start">
               <ion-item-option id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markWaiting($event)">
-                <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"
-                  (click)="markWaiting($event)"></ion-icon>
+                <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
               <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markComplete($event)">
                 <ion-icon slot="icon-only" name="checkmark-circle-outline" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}">

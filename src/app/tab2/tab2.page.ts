@@ -242,6 +242,7 @@ export class Tab2Page {
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
     let date = this.getCurrentDate();
+    let time = this.getTime();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
         status: 'waiting'

@@ -358,6 +358,10 @@ ion-tab-button.tab-selected {
   border-bottom-right-radius: 10px;
 }
 
+ion-modal {
+  --height: 500px !important;
+}
+
 @media (prefers-color-scheme: dark) {
   ion-segment-button {
     color: #fff;
