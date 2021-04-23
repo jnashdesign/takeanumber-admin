@@ -47,31 +47,6 @@ export class Tab2Page {
     this.tabsPage.getTabTotals();
   }
 
-  async addCustomerModal() {
-    const modal = await this.modalController.create({
-      component: AddCustomerPage
-    });
-    return await modal.present();
-  }
-
-  async textCustomerModal(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    let itemKeySplit = itemKey.split('_');
-    let name = itemKeySplit[1];
-
-    const modal = await this.modalController.create({
-      component: TextCustomerPage,
-      componentProps: { 
-        phoneNumber: phone,
-        itemKey: itemKey,
-        name: name
-      }
-    });
-    return await modal.present();
-  }
-
   setData(firebaseUID){
     this.afd.object('users/clients/' + firebaseUID)
     .valueChanges().subscribe((res:any) => {
@@ -168,98 +143,71 @@ export class Tab2Page {
     return time;  
   }
 
-  sendStatusUpdate(itemKey, phone, status){
+  statusUpdate(e, status) {
+    // collect data from event
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
     let date = this.getCurrentDate();
     let time = this.getTime();
     let payload;
 
-    if (phone !== undefined){
-       payload = {
-        text: status+'|'+phone,
-        status: status,
-        time_completed: time
-      }
-    }else{
+    // create payload based on status
+    if (status == 'cancelled'){
       payload = {
         status: status,
-        time_completed: time
-      }
-    }
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update(payload);
-      this.tabsPage.getTabTotals();
-  }
-
-  markInProgress(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    this.sendStatusUpdate(itemKey, phone, 'in-progress');
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'in-progress',
-        time_inProgress: time
-      });
-      this.tabsPage.getTabTotals();
-  }
-
-  markWaiting(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    this.sendStatusUpdate(itemKey, phone, 'waiting');
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'waiting'
-      });
-      this.tabsPage.getTabTotals();
-  }
-
-  markComplete(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    this.sendStatusUpdate(itemKey, phone, 'complete');
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'complete',
-        time_completed: time
-      });
-      this.tabsPage.getTabTotals();
-  }
-
-  markOnHold(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    this.sendStatusUpdate(itemKey, phone, 'on-hold');
-    let date = this.getCurrentDate();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'on-hold'
-      });
-      this.tabsPage.getTabTotals();
-  }
-
-  markCancelled(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    this.sendStatusUpdate(itemKey, phone, 'cancelled');
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update({
-        status: 'cancelled',
+        text: status+'|'+phone,
         time_cancelled: time
-      });
-      this.tabsPage.getTabTotals();
+      }
+     } else if (status == 'complete'){
+        payload = {
+          status: status,
+          text: status+'|'+phone,
+          time_complete: time
+        }
+    } else if (status == 'in-progress'){
+      payload = {
+        status: status,
+        text: status+'|'+phone,
+        time_inProgress: time
+      } 
+    }else {
+        payload = {
+          status: status,
+          text: status+'|'+phone,
+        }
+    }
+
+    console.log(payload);
+
+    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
+    .update(payload);
+    this.tabsPage.getTabTotals();
+  }
+
+  async addCustomerModal() {
+    const modal = await this.modalController.create({
+      component: AddCustomerPage
+    });
+    return await modal.present();
+  }
+
+  async textCustomerModal(e) {
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
+    let itemKeySplit = itemKey.split('_');
+    let name = itemKeySplit[1];
+
+    const modal = await this.modalController.create({
+      component: TextCustomerPage,
+      componentProps: { 
+        phoneNumber: phone,
+        itemKey: itemKey,
+        name: name
+      }
+    });
+    return await modal.present();
   }
 
   segmentChanged(e) {

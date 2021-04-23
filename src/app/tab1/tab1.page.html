@@ -1,8 +1,11 @@
 <a href="http://takeanumber.tech" target="_blank"><img class="appLogo" src="../../assets/takeANumber.png" end/></a>
 <ion-header class="topBar">
+  <ion-button class="debugBtn" style="display:none; position:absolute; top:10px; right: 80px;" (click)="debug()">Debug</ion-button>
+
   <ion-icon class="addCustomerIcon" (click)="addCustomerModal()" name="person-add"></ion-icon>
   <img class="restaurantLogo" src="{{restaurantLogo}}" end/>
 </ion-header>
+
 
 <ion-header>
   <ion-segment centered color="primary" [(ngModel)]="tab" (ionChange)="segmentChanged($event)">
@@ -46,17 +49,17 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markReady($event)">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'ready')">
                 <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}">
                 </ion-icon>
               </ion-item-option>
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markOnHold($event)">
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'on-hold')">
                 <ion-icon slot="icon-only" name="pause-circle" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
-              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markCancelled($event)">
+              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'cancelled')">
                 <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
@@ -84,20 +87,20 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markWaiting($event)">
+              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'waiting')">
                 <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}">
                 </ion-icon>
               </ion-item-option>
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markInProgress($event)">
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'in-progress')">
                 <ion-icon slot="icon-only" name="restaurant" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markOnHold($event)">
+              <ion-item-option color="danger" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'on-hold')">
                 <ion-icon slot="icon-only" name="pause-circle" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
-              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markCancelled($event)">
+              <ion-item-option color="dark" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'cancelled')">
                 <ion-icon slot="icon-only" name="trash" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
@@ -127,19 +130,18 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markWaiting($event)">
+              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'waiting')">
                 <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
-              <ion-item-option id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markInProgress($event)">
+              <ion-item-option id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'in-progress')">
                 <ion-icon slot="icon-only" name="restaurant" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
 
             </ion-item-options>
 
             <ion-item-options side="end">
-              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markReady($event)">
-                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"
-                  (click)="markReady($event)"></ion-icon>
+              <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="statusUpdate($event, 'ready')">
+                <ion-icon slot="icon-only" name="megaphone" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
             </ion-item-options>
           </ion-item-sliding>
