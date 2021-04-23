@@ -84,8 +84,8 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name}}" (click)="markWaiting($event)">
-                <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name}}">
+              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markWaiting($event)">
+                <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}">
                 </ion-icon>
               </ion-item-option>
               <ion-item-option color="success" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markInProgress($event)">
@@ -127,8 +127,8 @@
             </ion-item>
 
             <ion-item-options side="start">
-              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name}}" (click)="markWaiting($event)">
-                <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name}}"></ion-icon>
+              <ion-item-option color="primary" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markWaiting($event)">
+                <ion-icon slot="icon-only" name="alarm" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>
               </ion-item-option>
               <ion-item-option id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}" (click)="markInProgress($event)">
                 <ion-icon slot="icon-only" name="restaurant" id="{{item.timeStamp + '_' + item.name + '|' + item.phone}}"></ion-icon>

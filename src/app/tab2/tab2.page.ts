@@ -57,9 +57,9 @@ export class Tab2Page {
   async textCustomerModal(e) {
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
     let itemKeySplit = itemKey.split('_');
     let name = itemKeySplit[1];
-    let phone = itemInfo[2];
 
     const modal = await this.modalController.create({
       component: TextCustomerPage,
@@ -127,7 +127,6 @@ export class Tab2Page {
     this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + this.getCurrentDate() + '/',
       ref => ref.orderByChild('status').equalTo(status))
       .snapshotChanges().subscribe((res) => {
-        console.log(res);
         let tempArray: any = [];
         res.forEach((e) => {
           tempArray.push(e.payload.val())
@@ -135,16 +134,12 @@ export class Tab2Page {
 
         if (status == 'in-progress') {
           this.inProgressTotal = tempArray.length;
-          console.log(tempArray)
         } else if (status == 'complete') {
           this.completedTotal = tempArray.length;
-          console.log(tempArray)
         } else if (status == 'cancelled') {
           this.cancelledTotal = tempArray.length;
-          console.log(tempArray)
         } else {
           this.erroredOrders = tempArray;
-          console.log(this.erroredOrders);
         }
       });
   }
@@ -173,38 +168,10 @@ export class Tab2Page {
     return time;  
   }
 
-  openMessagePopup(e){
-    // Open popup for text message
-  }
-
-  sendPersonalMessage(e, message){
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[2];
+  sendStatusUpdate(itemKey, phone, status){
     let date = this.getCurrentDate();
     let time = this.getTime();
     let payload;
-
-       payload = {
-        messages: {
-          time: time + '|' + message
-        }
-      }
-
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-      .update(payload);
-      this.tabsPage.getTabTotals();
-  }
-
-  sendStatusUpdate(e, status){
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    let payload;
-
-    console.log(itemInfo);
 
     if (phone !== undefined){
        payload = {
@@ -224,9 +191,10 @@ export class Tab2Page {
   }
 
   markInProgress(e) {
-    this.sendStatusUpdate(e, 'in-progress');
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
+    this.sendStatusUpdate(itemKey, phone, 'in-progress');
     let date = this.getCurrentDate();
     let time = this.getTime();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
@@ -238,9 +206,10 @@ export class Tab2Page {
   }
 
   markWaiting(e) {
-    this.sendStatusUpdate(e, 'waiting');
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
+    this.sendStatusUpdate(itemKey, phone, 'waiting');
     let date = this.getCurrentDate();
     let time = this.getTime();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
@@ -251,9 +220,10 @@ export class Tab2Page {
   }
 
   markComplete(e) {
-    this.sendStatusUpdate(e, 'complete');
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
+    this.sendStatusUpdate(itemKey, phone, 'complete');
     let date = this.getCurrentDate();
     let time = this.getTime();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
@@ -265,9 +235,10 @@ export class Tab2Page {
   }
 
   markOnHold(e) {
-    this.sendStatusUpdate(e, 'on-hold');
-    let idInfo = e.target.id.split('|');
-    let itemKey = idInfo[0];
+    let itemInfo = e.target.id.split('|');
+    let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
+    this.sendStatusUpdate(itemKey, phone, 'on-hold');
     let date = this.getCurrentDate();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
       .update({
@@ -277,9 +248,10 @@ export class Tab2Page {
   }
 
   markCancelled(e) {
-    this.sendStatusUpdate(e, 'cancelled');
     let itemInfo = e.target.id.split('|');
     let itemKey = itemInfo[0];
+    let phone = itemInfo[1];
+    this.sendStatusUpdate(itemKey, phone, 'cancelled');
     let date = this.getCurrentDate();
     let time = this.getTime();
     this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
