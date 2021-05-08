@@ -159,7 +159,7 @@ export class AddCustomerPage implements OnInit {
     this.afd.list('/restaurants/' + this.firebaseName + '/' + date + '/').valueChanges()
       .subscribe(data => {
         console.log(data);
-        if (!data){
+        if (data.length === 1){
           this.numItems = 0;
         }else{
           this.numItems = data.length + 1;

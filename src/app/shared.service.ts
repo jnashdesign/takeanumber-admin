@@ -188,7 +188,7 @@ export class SharedService {
       localStorage.setItem('address', res.address);
       localStorage.setItem('hours',res.hours);
       localStorage.setItem('openStatus',res.openStatus);
-      if (res.website){
+      if (res.site){
         localStorage.setItem('site',res.site);
       }else{
         localStorage.removeItem('site');

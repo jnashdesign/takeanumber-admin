@@ -49,18 +49,42 @@ export class Tab4Page {
     public sharedService: SharedService,
     public afAuth: AngularFireAuth) {
       if (localStorage.getItem('restaurantLogo')){
-        this.firebaseUID = localStorage.getItem('firebaseUID').replace(/['"]+/g, '');
-        this.firebaseName = localStorage.getItem('firebaseName').replace(/['"]+/g, '');
-        this.restaurantLogo = localStorage.getItem('restaurantLogo').replace(/['"]+/g, '');
-        this.restuarantName = localStorage.getItem('restaurantName').replace(/['"]+/g, '');
-        this.restaurantType = localStorage.getItem('restaurantType').replace(/['"]+/g, '');
-        this.planType = localStorage.getItem('planType').replace(/['"]+/g, '');
-        this.phone = localStorage.getItem('phone').replace(/['"]+/g, '');
-        this.email = localStorage.getItem('email').replace(/['"]+/g, '');
-        this.site = localStorage.getItem('site').replace(/['"]+/g, '');
-        this.openStatus = localStorage.getItem('openStatus').replace(/['"]+/g, '');
-        this.address = localStorage.getItem('address');
-        this.hours = localStorage.getItem('hours');
+        if (localStorage.getItem('firebaseUID')){
+          this.firebaseUID = localStorage.getItem('firebaseUID').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('firebaseName')){
+          this.firebaseName = localStorage.getItem('firebaseName').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('restaurantLogo')){
+          this.restaurantLogo = localStorage.getItem('restaurantLogo').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('restaurantName')){
+          this.restuarantName = localStorage.getItem('restaurantName').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('restaurantType')){
+          this.restaurantType = localStorage.getItem('restaurantType').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('planType')){
+          this.planType = localStorage.getItem('planType').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('phone')){
+          this.phone = localStorage.getItem('phone').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('email')){
+          this.email = localStorage.getItem('email').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('openStatus')){
+          this.openStatus = localStorage.getItem('openStatus').replace(/['"]+/g, '');
+        }
+        if (localStorage.getItem('address')){
+          this.address = localStorage.getItem('address');
+        }
+        if (localStorage.getItem('hours')){
+          this.hours = localStorage.getItem('hours');
+        }
+        if (localStorage.getItem('site')){
+          this.site = localStorage.getItem('site').replace(/['"]+/g, '');
+        }
         if (localStorage.getItem('facebook')){
           this.facebook = localStorage.getItem('facebook').replace(/['"]+/g, '');
         }
