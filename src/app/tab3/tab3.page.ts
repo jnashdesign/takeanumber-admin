@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Storage } from '@ionic/storage';
+import { SharedService } from '../shared.service';
 declare var $: any;
 
 @Component({
@@ -26,10 +27,10 @@ export class Tab3Page implements OnInit {
 
   constructor(
     public storage: Storage,
+    public sharedService: SharedService,
     public afd: AngularFireDatabase) {
-    this.today = this.getCurrentDate();
+    this.today = this.sharedService.getCurrentDate();
     this.formattedDate = this.getFormattedDate();
-    // this.getDates();
     this.getOrderData(this.today);
     if (localStorage.getItem('restaurantLogo')){
       this.restaurantLogo = localStorage.getItem('restaurantLogo').replace(/['"]+/g, '');
@@ -249,15 +250,4 @@ export class Tab3Page implements OnInit {
     return date;
   }
 
-  getCurrentDate() {
-    // Get date info
-    let d = new Date;
-    let month = d.getMonth() + 1;
-    let day = d.getDate();
-    let year = d.getFullYear();
-    let date = month + '-' + day + '-' + year;
-    // let date = '8-14-2020';
-
-    return date;
-  }
 }

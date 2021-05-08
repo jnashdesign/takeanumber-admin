@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Storage } from '@ionic/storage';
 import { TabsPage } from '../tabs/tabs.page';
-import { ModalController } from '@ionic/angular';
-import { AddCustomerPage } from '../add-customer/add-customer.page';
-import { TextCustomerPage } from '../text-customer/text-customer.page';
+import { ModalController, ToastController } from '@ionic/angular';
+import { SharedService } from '../shared.service';
 declare var $: any;
 
 @Component({
@@ -14,15 +13,11 @@ declare var $: any;
 })
 export class Tab2Page {
 
-  public userID;
   public firebaseUID;
   public firebaseName;
-  public restaurantName;
   public restaurantLogo;
   public itemList: any;
-  public itemListReverse: any;
   public numItems: any;
-  public items = [];
   public tab;
 
   public inProgressTotal: Number;
@@ -34,54 +29,28 @@ export class Tab2Page {
     public afd: AngularFireDatabase,
     public tabsPage: TabsPage,
     public modalController: ModalController,
+    public toastCtrl: ToastController,
+    public sharedService: SharedService,
     public storage: Storage) {
     this.tab = 'open';
-    this.getItems(this.getCurrentDate());
+    this.getItems(this.sharedService.getCurrentDate());
     if (localStorage.getItem('firebaseUID')){
       this.firebaseUID = localStorage.getItem('firebaseUID').replace(/['"]+/g, '');
-      this.setData(this.firebaseUID);
+      this.sharedService.setData(this.firebaseUID);
+    }
+
+    if (localStorage.getItem('restaurantLogo')){
+      this.restaurantLogo = localStorage.getItem('restaurantLogo').replace(/['"]+/g, '');
     }
   }
 
   ionViewWillEnter(){
-    this.tabsPage.getTabTotals();
+    this.sharedService.setData(this.firebaseUID);
+    this.sharedService.getTabTotals();
   }
 
-  setData(firebaseUID){
-    this.afd.object('users/clients/' + firebaseUID)
-    .valueChanges().subscribe((res:any) => {
-      localStorage.setItem('restaurantName',res.restaurantName);
-      localStorage.setItem('firebaseName', res.firebaseName);
-      localStorage.setItem('restaurantLogo',res.restaurantLogo);
-      this.restaurantLogo = res.restaurantLogo.replace(/['"]+/g, '');
-      localStorage.setItem('restaurantType',res.restaurantType);
-      localStorage.setItem('restaurantEmail',res.email);
-      localStorage.setItem('planType',res.planType);
-      localStorage.setItem('phone',res.phone);
-      localStorage.setItem('email',res.email);
-      localStorage.setItem('site',res.site);
-      if (res.facebook){
-        localStorage.setItem('facebook',res.facebook);
-      }
-      if (res.instagram){
-        localStorage.setItem('instagram',res.instagram);
-      }
-      if (res.twitter){
-        localStorage.setItem('twitter', res.twitter);
-      }
-    });
-  }
-
-  getCurrentDate() {
-    // Get date info
-    let d = new Date;
-    let month = d.getMonth() + 1;
-    let day = d.getDate();
-    let year = d.getFullYear();
-    let date = month + '-' + day + '-' + year;
-    // let date = '8-14-2020';
-
-    return date;
+  changeStatus(e, status){
+    this.sharedService.statusUpdate(e, status);
   }
 
   getItems(date) {
@@ -99,7 +68,7 @@ export class Tab2Page {
 
   getOrderData(status) {
     // Get completed orders
-    this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + this.getCurrentDate() + '/',
+    this.afd.list('restaurants/' + localStorage.getItem('firebaseName') + '/' + this.sharedService.getCurrentDate() + '/',
       ref => ref.orderByChild('status').equalTo(status))
       .snapshotChanges().subscribe((res) => {
         let tempArray: any = [];
@@ -119,95 +88,12 @@ export class Tab2Page {
       });
   }
 
-  getTime(){
-    // Get time info.
-    let d = new Date;
-    let hours = d.getHours();
-    let minutes = d.getMinutes();
-    let minutesString;
-    let time;
-
-    // Check whether AM or PM 
-    var newformat = hours >= 12 ? 'PM' : 'AM';
-
-    // Find current hour in AM-PM Format 
-    hours = hours % 12;
-
-    // To display "0" as "12" 
-    hours = hours ? hours : 12;
-    minutesString = minutes < 10 ? '0' + minutes : minutes;
-
-    // Format the date and time
-    time = hours + ':' + minutesString + ' ' + newformat;
-    
-    return time;  
-  }
-
-  statusUpdate(e, status) {
-    // collect data from event
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    let date = this.getCurrentDate();
-    let time = this.getTime();
-    let payload;
-
-    // create payload based on status
-    if (status == 'cancelled'){
-      payload = {
-        status: status,
-        text: status+'|'+phone,
-        time_cancelled: time
-      }
-     } else if (status == 'complete'){
-        payload = {
-          status: status,
-          text: status+'|'+phone,
-          time_complete: time
-        }
-    } else if (status == 'in-progress'){
-      payload = {
-        status: status,
-        text: status+'|'+phone,
-        time_inProgress: time
-      } 
-    }else {
-        payload = {
-          status: status,
-          text: status+'|'+phone,
-        }
-    }
-
-    console.log(payload);
-
-    this.afd.object('restaurants/' + localStorage.getItem('firebaseName') + '/' + date + '/' + itemKey)
-    .update(payload);
-    this.tabsPage.getTabTotals();
-  }
-
   async addCustomerModal() {
-    const modal = await this.modalController.create({
-      component: AddCustomerPage
-    });
-    return await modal.present();
+    this.sharedService.addCustomerModal()
   }
 
   async textCustomerModal(e) {
-    let itemInfo = e.target.id.split('|');
-    let itemKey = itemInfo[0];
-    let phone = itemInfo[1];
-    let itemKeySplit = itemKey.split('_');
-    let name = itemKeySplit[1];
-
-    const modal = await this.modalController.create({
-      component: TextCustomerPage,
-      componentProps: { 
-        phoneNumber: phone,
-        itemKey: itemKey,
-        name: name
-      }
-    });
-    return await modal.present();
+    this.sharedService.textCustomerModal(e);
   }
 
   segmentChanged(e) {

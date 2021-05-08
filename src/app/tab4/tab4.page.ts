@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AlertController, ToastController } from '@ionic/angular';
+import { SharedService } from '../shared.service';
 declare var $: any;
 
 @Component({
@@ -45,6 +46,7 @@ export class Tab4Page {
     public toastCtrl: ToastController,
     public afd: AngularFireDatabase,
     public alrtCtrl: AlertController,
+    public sharedService: SharedService,
     public afAuth: AngularFireAuth) {
       if (localStorage.getItem('restaurantLogo')){
         this.firebaseUID = localStorage.getItem('firebaseUID').replace(/['"]+/g, '');
@@ -72,29 +74,11 @@ export class Tab4Page {
   }
 
   ionViewDidEnter(){
-    this.setData(this.firebaseUID);
+    this.sharedService.setData(this.firebaseUID);
   }
 
   onChange($event){
     console.log($event);
-  }
-
-  setData(firebaseUID){
-    this.afd.object('users/clients/' + firebaseUID)
-    .valueChanges().subscribe((res:any) => {
-      localStorage.setItem('restaurantName',res.restaurantName);
-      localStorage.setItem('firebaseName', res.firebaseName);
-      localStorage.setItem('restaurantLogo',res.restaurantLogo);
-      this.restaurantLogo = res.restaurantLogo.replace(/['"]+/g, '');
-      localStorage.setItem('restaurantType',res.restaurantType);
-      localStorage.setItem('restaurantEmail',res.email);
-      localStorage.setItem('planType',res.planType);
-      localStorage.setItem('phone',res.phone);
-      localStorage.setItem('email',res.email);
-      localStorage.setItem('openStatus',res.openStatus);
-      localStorage.setItem('address',res.address);
-      localStorage.setItem('hours',res.hours);
-    });
   }
 
   async save(){   
