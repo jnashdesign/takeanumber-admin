@@ -171,11 +171,14 @@ p {
   min-height: 80px;
   background: #fff;
 }
-// #nameInput {
-//   font-size: 1.5em;
-//   font-weight: bold;
-//   margin-top: -0.5em;
-// }
+td, th {
+  padding: 0 10px 0 0;
+  vertical-align: top;
+  text-align: left;
+}
+td.custName {
+  text-transform: capitalize;
+}
 #nameInput, #phoneNumberInput {
   border: 1px solid #777;
   padding-left: 10px!important;

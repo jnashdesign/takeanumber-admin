@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { Tab2Page } from './tab2.page';
 
 describe('Tab2Page', () => {
@@ -8,6 +9,7 @@ describe('Tab2Page', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [Tab2Page],
+      providers: [AngularFireDatabase]
     }).compileComponents();
 
     fixture = TestBed.createComponent(Tab2Page);

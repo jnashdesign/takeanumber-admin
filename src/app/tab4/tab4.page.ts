@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AlertController, ToastController } from '@ionic/angular';
@@ -42,7 +41,6 @@ export class Tab4Page {
   public address;
 
   constructor(
-    public storage: Storage,
     public toastCtrl: ToastController,
     public afd: AngularFireDatabase,
     public alrtCtrl: AlertController,

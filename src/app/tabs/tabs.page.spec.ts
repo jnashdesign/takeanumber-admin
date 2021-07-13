@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 import { TabsPage } from './tabs.page';
 
@@ -10,6 +11,7 @@ describe('TabsPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TabsPage],
+      providers: [AngularFireDatabase],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

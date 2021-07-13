@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { AlertController } from '@ionic/angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ModalController, ToastController } from '@ionic/angular';
-import { TextCustomerPage } from '../text-customer/text-customer.page';
-import { AddCustomerPage } from '../add-customer/add-customer.page';
 declare var $: any;
 
 @Component({
@@ -22,7 +19,6 @@ export class TabsPage {
   public erroredOrders;
 
   constructor(
-    public afd: AngularFireDatabase,
     public afAuth: AngularFireAuth,
     public toastCtrl: ToastController,
     public modalCtrl: ModalController,

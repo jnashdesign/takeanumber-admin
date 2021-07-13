@@ -16,16 +16,13 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireDatabase } from 'angularfire2/database';
 
-// Pages
-import { TabsPage } from './tabs/tabs.page';
-import { Tab1Page } from './tab1/tab1.page';
-import { Tab2Page } from './tab2/tab2.page';
-import { Tab4Page } from './tab4/tab4.page';
+// services
+import { SharedService } from '../app/shared.service';
 
 // environment
 import { environment } from '../environments/environment';
-import { Tab3Page } from './tab3/tab3.page';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,15 +36,13 @@ import { Tab3Page } from './tab3/tab3.page';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    AngularFireStorageModule  
+    AngularFireStorageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    TabsPage,
-    Tab1Page,
-    Tab2Page,
-    Tab4Page,
+    SharedService,
+    AngularFireDatabase,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

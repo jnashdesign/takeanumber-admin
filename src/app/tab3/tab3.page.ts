@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Storage } from '@ionic/storage';
 import { SharedService } from '../shared.service';
 declare var $: any;
 
@@ -26,7 +25,6 @@ export class Tab3Page implements OnInit {
   public restaurantType;
 
   constructor(
-    public storage: Storage,
     public sharedService: SharedService,
     public afd: AngularFireDatabase) {
     this.today = this.sharedService.getCurrentDate();
@@ -41,54 +39,74 @@ export class Tab3Page implements OnInit {
   }
 
   getOrderData(date) {
+    this.afd.list('users/customers/bellsSweetFactory').valueChanges()
+    .subscribe(res => {
+      console.log('customers')
+      console.log(res);
+    })
+
     let firebaseName = localStorage.getItem('firebaseName');
     this.afd.list('restaurants/'+ firebaseName +'/' + date).valueChanges()
       .subscribe(res => {
-        // console.log(res)
+
         let tempArray: any = [];
         res.forEach((e) => {
           tempArray.push(e)
         });
         let cancelledList = [];
         let orderTimes = [];
+        let cancelledOrderTimes = [];
         let orderInfo = [];
         let orderIDArray = [];
         let orderTimeArray = [];
         let waitTimeArray = [];
+
         tempArray.forEach((element) => {
-          // console.log(element);
-          let info = {
-            id: element.id,
-            status: element.status,
-            time_gotNumber: element.time_gotNumber,
-            time_inProgress: element.time_inProgress,
-            time_completed: element.time_completed
-          }
-          orderInfo.push(info);
+          console.log(element);
+          orderInfo.push(element);
         });
+
         let OrderTimeSum = 0;
         let WaitTimeSum = 0;
         orderInfo.forEach((element) => {
-          // console.log(element)
-          if (element.status == 'cancelled'){
+
+        if (element.status == 'cancelled'){
             cancelledList.push(element);
+            let timeGotNumber = this.processtime(element.time_gotNumber);
+            let timeCompleted = this.processtime(element.time_completed);
+            let totalOrderTime = timeCompleted - timeGotNumber;
+            if (isNaN(totalOrderTime)){
+              totalOrderTime = 0;
+            }
+            console.log(totalOrderTime);
+
+            cancelledOrderTimes.push({
+              id: element.id,
+              gotNumber: element.time_gotNumber,
+              name: element.name,
+              totalOrderTime: totalOrderTime
+          });
+
           } else if (element.time_completed){
-            // console.log(element);
+
             let timeGotNumber = this.processtime(element.time_gotNumber);
             let timeOrderStarted = this.processtime(element.time_inProgress);
             let timeCompleted = this.processtime(element.time_completed);
             let totalOrderTime = timeCompleted - timeGotNumber;
             let timeWaiting = timeOrderStarted - timeGotNumber;
-            // console.log(timeWaiting);
+
             if (timeGotNumber && timeOrderStarted && timeCompleted && totalOrderTime && timeWaiting){
               OrderTimeSum = OrderTimeSum + totalOrderTime;
               WaitTimeSum = WaitTimeSum + timeWaiting;
               orderIDArray.push(element.id);
               orderTimeArray.push(totalOrderTime);
               waitTimeArray.push(timeWaiting);
-              console.log(waitTimeArray);
+
               orderTimes.push({
                 id: element.id,
+                gotNumber: element.time_gotNumber,
+                name: element.name,
+                status: element.status,
                 timeOrderStarted: element.time_gotNumber,
                 timeOrderInProgress: element.time_inProgress,
                 timeOrderCompleted: element.time_completed,
@@ -98,11 +116,23 @@ export class Tab3Page implements OnInit {
             }
           }
         });
+        console.log(cancelledOrderTimes);
+        // Create Charts
+        this.createTotalChart(orderTimes);
+        this.createWaitChart(orderTimes);
+
+        // Create Order Recap Table
+        orderTimes.forEach((element) => {
+            $('#completedOrders').append('<tr style="border-bottom: 1px solid #ccc;"><td><strong>'+ element.id +'</strong></td><td class="custName">' + element.name + '</td><td>' + element.gotNumber + '</td><td>' + element.timeWaiting + '</td><td>' + element.totalOrderTime + '</td></tr>');
+        });
+        cancelledOrderTimes.forEach((element) => {
+          $('#cancelledOrders').append('<tr style="border-bottom: 1px solid #ccc;"><td><strong>'+ element.id +'</strong></td><td class="custName">' + element.name + '</td><td>' + element.gotNumber + '</td><td>' + element.totalOrderTime + '</td></tr>')
+        });
+
         this.cancelledOrders = cancelledList.length;
         let avgOrderTimeInfo = OrderTimeSum /orderTimes.length;
         let avgWaitTimeInfo = WaitTimeSum / orderTimes.length;
-        console.log('orderTimesLength',orderTimes.length);
-        console.log('WaitTimeSum',WaitTimeSum);
+
         if (avgWaitTimeInfo){
           this.avgWaitTime = avgWaitTimeInfo.toFixed(0) + ' Minutes';
         }else{
@@ -117,27 +147,37 @@ export class Tab3Page implements OnInit {
       });
   }
 
-    createTotalChart(orderInfoArray) {
+    createTotalChart(orderTimes) {
     let labelName;
     let chartName;
-      $('#totalTimeChart').remove();
-      $('.totalChartContent').append('<canvas id="totalTimeChart"></canvas>');  
-      labelName = 'Total Order Time (minutes)';
-      chartName = this.totalTimeChart.nativeElement
+    let idArray = [];
+    let totalTimeArray = [];
+    labelName = 'Total Order Time';
+    chartName = this.totalTimeChart.nativeElement
+
+    orderTimes.forEach((element) => {
+      idArray.push(element.id);
+      totalTimeArray.push(element.totalOrderTime);
+    });
 
     this.bars = new Chart(chartName, {
       type: 'line',
       data: {
-        labels: orderInfoArray.ids,
+        labels: idArray,
         datasets: [{
           label: labelName,
-          data: orderInfoArray.times,
-          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+          data: totalTimeArray,
+          backgroundColor: 'rgba(38, 194, 129, 0.75)', // array should have same number of elements as number of dataset
           borderColor: 'rgb(56, 109, 33)',// array should have same number of elements as number of dataset
-          borderWidth: 2
+          borderWidth: 2,
+          // fill: false
         }]
       },
       options: {
+        title: {
+          display: true,
+          text: 'From Got Number Status to Complete Status'
+        },
         scales: {
           xAxes: [{
             scaleLabel: {
@@ -151,32 +191,43 @@ export class Tab3Page implements OnInit {
               labelString: 'Minutes'
             }
           }]
-        }
+        },
+        events: ['']
       }
     });
   }
 
-  createWaitChart(orderInfoArray) {
+  createWaitChart(orderTimes) {
     let labelName;
     let chartName;
-      $('#waitTimeChart').remove();
-      $('.waitChartContent').append('<canvas id="waitTimeChart"></canvas>');
-      labelName = 'Wait Time (minutes)';
-      chartName = this.waitTimeChart.nativeElement
+    let idArray = [];
+    let waitTimeArray = [];
+    labelName = 'Wait Time';
+    chartName = this.waitTimeChart.nativeElement;
+
+    orderTimes.forEach((element) => {
+      idArray.push(element.id);
+      waitTimeArray.push(element.timeWaiting);
+    });
 
     this.bars = new Chart(chartName, {
       type: 'line',
       data: {
-        labels: orderInfoArray.ids,
+        labels: idArray,
         datasets: [{
           label: labelName,
-          data: orderInfoArray.times,
-          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+          data: waitTimeArray,
+          backgroundColor: 'rgba(38, 194, 129, 0.75)', // array should have same number of elements as number of dataset
           borderColor: 'rgb(56, 109, 33)',// array should have same number of elements as number of dataset
-          borderWidth: 2
+          borderWidth: 2,
+          // fill: false
         }]
       },
       options: {
+        title: {
+          display: true,
+          text: 'From Got Number Status to Ready to Order'
+        },
         scales: {
           xAxes: [{
             scaleLabel: {
@@ -185,12 +236,16 @@ export class Tab3Page implements OnInit {
             }
           }],
           yAxes: [{
+            ticks: {
+              beginAtZero:true
+          },    
             scaleLabel: {
               display: true,
               labelString: 'Minutes'
             }
           }]
-        }
+        },
+        events: ['']
       }
     });
   }

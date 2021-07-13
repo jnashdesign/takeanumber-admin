@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Storage } from '@ionic/storage';
-import { TabsPage } from '../tabs/tabs.page';
 import { ModalController, ToastController } from '@ionic/angular';
 import { SharedService } from '../shared.service';
 declare var $: any;
@@ -27,11 +25,9 @@ export class Tab2Page {
 
   constructor(
     public afd: AngularFireDatabase,
-    public tabsPage: TabsPage,
     public modalController: ModalController,
     public toastCtrl: ToastController,
-    public sharedService: SharedService,
-    public storage: Storage) {
+    public sharedService: SharedService) {
     this.tab = 'open';
     this.getItems(this.sharedService.getCurrentDate());
     if (localStorage.getItem('firebaseUID')){
