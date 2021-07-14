@@ -39,16 +39,9 @@ export class Tab3Page implements OnInit {
   }
 
   getOrderData(date) {
-    this.afd.list('users/customers/bellsSweetFactory').valueChanges()
-    .subscribe(res => {
-      console.log('customers')
-      console.log(res);
-    })
-
     let firebaseName = localStorage.getItem('firebaseName');
     this.afd.list('restaurants/'+ firebaseName +'/' + date).valueChanges()
       .subscribe(res => {
-
         let tempArray: any = [];
         res.forEach((e) => {
           tempArray.push(e)
@@ -62,7 +55,6 @@ export class Tab3Page implements OnInit {
         let waitTimeArray = [];
 
         tempArray.forEach((element) => {
-          console.log(element);
           orderInfo.push(element);
         });
 
@@ -73,12 +65,11 @@ export class Tab3Page implements OnInit {
         if (element.status == 'cancelled'){
             cancelledList.push(element);
             let timeGotNumber = this.processtime(element.time_gotNumber);
-            let timeCompleted = this.processtime(element.time_completed);
+            let timeCompleted = this.processtime(element.time_complete);
             let totalOrderTime = timeCompleted - timeGotNumber;
             if (isNaN(totalOrderTime)){
               totalOrderTime = 0;
             }
-            console.log(totalOrderTime);
 
             cancelledOrderTimes.push({
               id: element.id,
@@ -87,11 +78,11 @@ export class Tab3Page implements OnInit {
               totalOrderTime: totalOrderTime
           });
 
-          } else if (element.time_completed){
+          } else if (element.time_complete){
 
             let timeGotNumber = this.processtime(element.time_gotNumber);
             let timeOrderStarted = this.processtime(element.time_inProgress);
-            let timeCompleted = this.processtime(element.time_completed);
+            let timeCompleted = this.processtime(element.time_complete);
             let totalOrderTime = timeCompleted - timeGotNumber;
             let timeWaiting = timeOrderStarted - timeGotNumber;
 
@@ -109,14 +100,13 @@ export class Tab3Page implements OnInit {
                 status: element.status,
                 timeOrderStarted: element.time_gotNumber,
                 timeOrderInProgress: element.time_inProgress,
-                timeOrderCompleted: element.time_completed,
+                timeOrderCompleted: element.time_complete,
                 timeWaiting: timeWaiting,
                 totalOrderTime: totalOrderTime
               });
             }
           }
         });
-        console.log(cancelledOrderTimes);
         // Create Charts
         this.createTotalChart(orderTimes);
         this.createWaitChart(orderTimes);
@@ -251,7 +241,6 @@ export class Tab3Page implements OnInit {
   }
 
   processtime(time){
-    // console.log(time);
     if (time){
       time = time.split(' ');
       let timeFormatted = time[0].split(':');
